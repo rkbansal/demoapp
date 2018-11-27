@@ -1,0 +1,2026 @@
+{
+  "id": "b4dfe169-b2c0-4f9d-8266-ce9c039f90f0",
+  "type": "Questionnaire",
+  "cards": [
+    {
+      "questions": [
+        {
+          "id": "cca334ab-1c39-4f26-bc64-abe1bf32309c",
+          "title": "Seeing an External Endocrinologist",
+          "buttons": [
+            {
+              "id": "Add-EditContact",
+              "states": {
+                "create": {
+                  "title": "Add Current Contact",
+                  "active": false
+                },
+                "edit": {
+                  "title": "Edit Current Contact",
+                  "active": true
+                }
+              },
+              "on_select": [
+                {
+                  "event_condition": "self='true'",
+                  "event_name": "DisplayRightPanel",
+                  "event_data": "AddContact"
+                }
+              ],
+              "state_condition": {
+                "type": "CareTeamParticipant",
+                "state_results": [
+                  {
+                    "state": "create",
+                    "results_predicate": [
+                      [
+                        "SELF[SIZE] == %@",
+                        0
+                      ]
+                    ]
+                  },
+                  {
+                    "state": "edit",
+                    "results_predicate": [
+                      [
+                        "SELF[SIZE] > %@",
+                        0
+                      ]
+                    ]
+                  }
+                ],
+                "query_predicate": [
+                  [
+                    "specialist.id IN %@",
+                    [
+                      "191d3555-d5eb-4160-8b9a-b2c2bf601d15"
+                    ]
+                  ],
+                  [
+                    "status=%@",
+                    "active"
+                  ],
+                  [
+                    "employee.isInternal=%@",
+                    false
+                  ]
+                ]
+              }
+            },
+            {
+              "id": "Add-EditVisit",
+              "states": {
+                "create": {
+                  "title": "Add Last Visit",
+                  "active": false
+                },
+                "edit": {
+                  "title": "Edit Last Visit",
+                  "active": true
+                }
+              },
+              "on_select": [
+                {
+                  "event_condition": "self='true'",
+                  "event_name": "DisplayRightPanel",
+                  "event_data": "AddLastVisit"
+                }
+              ],
+              "state_condition": {
+                "type": "ParticipantEncounterSummary",
+                "state_results": [
+                  {
+                    "state": "create",
+                    "results_predicate": [
+                      [
+                        "SELF[SIZE] == %@",
+                        0
+                      ]
+                    ]
+                  },
+                  {
+                    "state": "edit",
+                    "results_predicate": [
+                      [
+                        "SELF[SIZE] > %@",
+                        0
+                      ]
+                    ]
+                  }
+                ],
+                "query_predicate": [
+                  [
+                    "careTeamParticipant.specialist.id IN %@",
+                    [
+                      "191d3555-d5eb-4160-8b9a-b2c2bf601d15"
+                    ]
+                  ],
+                  [
+                    "careTeamParticipant.employee.isInternal=%@",
+                    false
+                  ],
+                  [
+                    "careTeamParticipant.status=%@",
+                    "active"
+                  ],
+                  [
+                    "encounterId=$encounterId"
+                  ],
+                  [
+                    "status<>%@",
+                    "entered-in-error"
+                  ]
+                ]
+              }
+            }
+          ],
+          "widgets": {
+            "AddContact": {
+              "storage": {
+                "object": {
+                  "type": "CareTeamParticipant",
+                  "find_existing": [
+                    [
+                      "specialist.id IN %@",
+                      [
+                        "191d3555-d5eb-4160-8b9a-b2c2bf601d15"
+                      ]
+                    ],
+                    [
+                      "status=%@",
+                      "active"
+                    ],
+                    [
+                      "employee.isInternal=%@",
+                      false
+                    ]
+                  ],
+                  "additional_data": {
+                    "status": "active",
+                    "employee": {
+                      "type": "Employee"
+                    },
+                    "specialist": {
+                      "id": "191d3555-d5eb-4160-8b9a-b2c2bf601d15",
+                      "name": "Endocrinologist",
+                      "type": "Specialist",
+                      "cognate_specialists": [
+                        {
+                          "id": "91f7be02-c16c-45f1-b853-db5168f9c392"
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              "title": "Add Contact",
+              "items": [
+                {
+                  "mapped_to": "status",
+                  "title": "PROVIDER STATUS",
+                  "on_select": {
+                    "event_name": "navigate",
+                    "event_data": "SetStatus"
+                  },
+                  "type": "NestedLabel",
+                  "enabled_if": "existsInDB=true"
+                },
+                {
+                  "mapped_to": "carePeriodStart",
+                  "title": "UNDER CARE SINCE",
+                  "on_select": {
+                    "event_name": "navigate",
+                    "event_data": "SetUnderCareSince"
+                  },
+                  "type": "NestedLabel",
+                  "visible_if": "obj.status=='active'"
+                },
+                {
+                  "mapped_to": "carePeriod",
+                  "title": "CARE PERIOD",
+                  "on_select": {
+                    "event_name": "navigate",
+                    "event_data": "SetCarePeriod"
+                  },
+                  "type": "NestedLabel",
+                  "visible_if": "obj.status=='inactive'"
+                },
+                {
+                  "mapped_to": "self",
+                  "observe_keys": [
+                    "employee.name",
+                    "employee.location",
+                    "employee.contactNumber1",
+                    "employee.contactNumber2"
+                  ],
+                  "on_select": {
+                    "event_name": "clear_values",
+                    "event_data": {}
+                  },
+                  "type": "HeaderCount"
+                },
+                {
+                  "return_key": "next",
+                  "mapped_to": "employee.name",
+                  "title": "Name:",
+                  "on_select": {
+                    "event_name": "show_keyboard"
+                  },
+                  "text": "Dr. ",
+                  "type": "TextInput",
+                  "autocapitalization": "words"
+                },
+                {
+                  "mapped_to": "employee.location",
+                  "title": "Location:",
+                  "on_select": {
+                    "event_name": "show_keyboard"
+                  },
+                  "type": "TextInput",
+                  "return_key": "next"
+                },
+                {
+                  "mapped_to": "employee.contactNumber1",
+                  "title": "Contact Number 1:",
+                  "on_select": {
+                    "event_name": "show_phone_number_pad"
+                  },
+                  "type": "TextInput",
+                  "text": "+91"
+                },
+                {
+                  "mapped_to": "employee.contactNumber2",
+                  "title": "Contact Number 2:",
+                  "on_select": {
+                    "event_name": "show_phone_number_pad"
+                  },
+                  "type": "TextInput",
+                  "text": "+91"
+                }
+              ],
+              "type": "NestedLabelWidget",
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "close",
+                    "save": "db"
+                  }
+                ]
+              }
+            },
+            "AddPastContact": {
+              "storage": {
+                "object": {
+                  "type": "CareTeamParticipant",
+                  "additional_data": {
+                    "status": "inactive",
+                    "employee": {
+                      "type": "Employee"
+                    },
+                    "specialist": {
+                      "id": "191d3555-d5eb-4160-8b9a-b2c2bf601d15",
+                      "name": "Endocrinologist",
+                      "type": "Specialist",
+                      "cognate_specialists": [
+                        {
+                          "id": "91f7be02-c16c-45f1-b853-db5168f9c392"
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              "title": "Add Contact",
+              "items": [
+                {
+                  "mapped_to": "status",
+                  "title": "PROVIDER STATUS",
+                  "on_select": {
+                    "event_name": "navigate",
+                    "event_data": "SetStatus"
+                  },
+                  "type": "NestedLabel"
+                },
+                {
+                  "mapped_to": "carePeriodStart",
+                  "title": "UNDER CARE SINCE",
+                  "on_select": {
+                    "event_name": "navigate",
+                    "event_data": "SetUnderCareSince"
+                  },
+                  "type": "NestedLabel",
+                  "visible_if": "obj.status=='active'"
+                },
+                {
+                  "mapped_to": "carePeriod",
+                  "title": "CARE PERIOD",
+                  "on_select": {
+                    "event_name": "navigate",
+                    "event_data": "SetCarePeriod"
+                  },
+                  "type": "NestedLabel",
+                  "visible_if": "obj.status=='inactive'"
+                },
+                {
+                  "mapped_to": "self",
+                  "observe_keys": [
+                    "employee.name",
+                    "employee.location",
+                    "employee.contactNumber1",
+                    "employee.contactNumber2"
+                  ],
+                  "on_select": {
+                    "event_name": "clear_values",
+                    "event_data": {}
+                  },
+                  "type": "HeaderCount"
+                },
+                {
+                  "return_key": "next",
+                  "mapped_to": "employee.name",
+                  "title": "Name:",
+                  "on_select": {
+                    "event_name": "show_keyboard"
+                  },
+                  "text": "Dr. ",
+                  "type": "TextInput",
+                  "autocapitalization": "words"
+                },
+                {
+                  "mapped_to": "employee.location",
+                  "title": "Location:",
+                  "on_select": {
+                    "event_name": "show_keyboard"
+                  },
+                  "type": "TextInput",
+                  "return_key": "next"
+                },
+                {
+                  "mapped_to": "employee.contactNumber1",
+                  "title": "Contact Number 1:",
+                  "on_select": {
+                    "event_name": "show_phone_number_pad"
+                  },
+                  "type": "TextInput",
+                  "text": "+91"
+                },
+                {
+                  "mapped_to": "employee.contactNumber2",
+                  "title": "Contact Number 2:",
+                  "on_select": {
+                    "event_name": "show_phone_number_pad"
+                  },
+                  "type": "TextInput",
+                  "text": "+91"
+                }
+              ],
+              "type": "NestedLabelWidget",
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "close",
+                    "save": "db"
+                  }
+                ]
+              }
+            },
+            "SetStatus": {
+              "storage": {
+                "keys": {
+                  "selectedValue": "status"
+                }
+              },
+              "title": "Provider Status",
+              "items": [
+                {
+                  "type": "SingleSelect",
+                  "title": "Currently Seeing",
+                  "value": "active"
+                },
+                {
+                  "type": "SingleSelect",
+                  "title": "No Longer Seeing",
+                  "value": "inactive"
+                }
+              ],
+              "type": "SingleSelectWidget",
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "pop",
+                    "save": "parent"
+                  }
+                ]
+              },
+              "isMandatory": true
+            },
+            "SetCarePeriod": {
+              "storage": {
+                "keys": {
+                  "toDate": "carePeriodEnd",
+                  "fromDate": "carePeriodStart"
+                }
+              },
+              "title": "Care Period",
+              "type": "DateRangeWidget",
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "pop",
+                    "save": "parent"
+                  }
+                ]
+              }
+            },
+            "SetUnderCareSince": {
+              "storage": {
+                "keys": {
+                  "onsetDate": "carePeriodStart"
+                }
+              },
+              "title": "Under Care Since",
+              "type": "OnsetWidget",
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "pop",
+                    "save": "parent"
+                  }
+                ]
+              }
+            },
+            "AddLastVisit": {
+              "storage": {
+                "keys": {
+                  "onsetDate": "visit"
+                },
+                "object": {
+                  "type": "ParticipantEncounterSummary",
+                  "additional_data": {
+                    "status": "active",
+                    "careTeamParticipant": {
+                      "type": "CareTeamParticipant",
+                      "find_existing": [
+                        [
+                          "specialist.id IN %@",
+                          [
+                            "191d3555-d5eb-4160-8b9a-b2c2bf601d15"
+                          ]
+                        ],
+                        [
+                          "status=%@",
+                          "active"
+                        ]
+                      ],
+                      "additional_data": {
+                        "status": "active",
+                        "specialist": {
+                          "id": "191d3555-d5eb-4160-8b9a-b2c2bf601d15",
+                          "name": "Endocrinologist",
+                          "type": "Specialist",
+                          "cognate_specialists": [
+                            {
+                              "id": "91f7be02-c16c-45f1-b853-db5168f9c392"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "title": "Last Visit",
+              "type": "OnsetWidget",
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "close",
+                    "save": "db"
+                  }
+                ]
+              }
+            }
+          },
+          "on_change_listener": {
+            "type": "CareTeamParticipant",
+            "query_predicate": [
+              [
+                "specialist.id IN %@",
+                [
+                  "191d3555-d5eb-4160-8b9a-b2c2bf601d15"
+                ]
+              ],
+              [
+                "employee.isInternal=%@",
+                false
+              ]
+            ]
+          },
+          "summary": {
+            "type": "Specialist",
+            "storage": {
+              "model": "CareTeamParticipant",
+              "sorts": [
+                {
+                  "carePeriodStart": false
+                }
+              ],
+              "find_existing": [
+                [
+                  "specialist.id IN %@",
+                  [
+                    "191d3555-d5eb-4160-8b9a-b2c2bf601d15"
+                  ]
+                ]
+              ]
+            },
+            "events": {
+              "current_add_contact": {
+                "event_name": "DisplayRightPanel",
+                "event_data": "AddContact"
+              },
+              "add_edit_visit": {
+                "event_name": "DisplayRightPanel",
+                "event_data": "AddLastVisit"
+              },
+              "delete_visit": {
+                "event_name": "Delete"
+              },
+              "past_add_contact": {
+                "event_name": "DisplayRightPanel",
+                "event_data": "AddPastContact"
+              },
+              "delete_contact": {
+                "event_name": "Delete"
+              },
+              "past_custom_action": {
+                "event_name": "MakeCurrent"
+              },
+              "current_custom_action": {
+                "event_name": "MakePast"
+              }
+            }
+          }
+        },
+        {
+          "id": "question-3",
+          "title": "Test single unit numberinput",
+          "buttons": [
+            {
+              "title": "Add",
+              "on_select": [
+                {
+                  "event_data": "ShowNumberInputWidget",
+                  "event_name": "DisplayRightPanel",
+                  "event_condition": "self='true'"
+                }
+              ]
+            }
+          ],
+          "widgets": {
+            "ShowNumberInputWidget": {
+              "type": "NumberInputWidget",
+              "prefix": "No. of Hours:",
+              "maxIntegerPartDigitsCount": 2,
+              "isDecimalAllowed": false,
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "close",
+                    "save": "db"
+                  }
+                ]
+              },
+              "storage": {
+                "keys": {
+                  "number": "valueString",
+                  "unit": "valueUnit"
+                },
+                "object": {
+                  "type": "Observation",
+                  "additional_data": {
+                    "id": "SingleUnitObservation"
+                  }
+                }
+              },
+              "units": [
+                "hrs per day"
+              ]
+            }
+          },
+          "summary": {
+            "type": "RecentRecords",
+            "storage": {
+              "model": "Observation",
+              "find_existing": [
+                [
+                  "id=%@",
+                  "SingleUnitObservation"
+                ]
+              ]
+            },
+            "item_templates": [
+              {
+                "template": "{{obj.valueString}} {{obj.valueUnit}}"
+              }
+            ]
+          }
+        }
+      ],
+      "id": "d238ddcd-d8ce-483b-9fc1-3d3cead7414a",
+      "name": "Thyroid",
+      "type": "Card",
+      "acronym": "THY"
+    },
+    {
+      "questions": [
+        {
+          "id": "08563b9f-a5af-4246-97b3-be1585d5bb82",
+          "title": "Seeing an External Neurologist or Neuropsychiatrist",
+          "buttons": [
+            {
+              "id": "Add-EditContact",
+              "states": {
+                "create": {
+                  "title": "Add Current Contact",
+                  "active": false
+                },
+                "edit": {
+                  "title": "Edit Current Contact",
+                  "active": true
+                }
+              },
+              "on_select": [
+                {
+                  "event_condition": "self='true'",
+                  "event_name": "DisplayRightPanel",
+                  "event_data": "SelectSpecialist"
+                }
+              ],
+              "state_condition": {
+                "type": "CareTeamParticipant",
+                "state_results": [
+                  {
+                    "state": "create",
+                    "results_predicate": [
+                      [
+                        "SELF[SIZE] == %@",
+                        0
+                      ]
+                    ]
+                  },
+                  {
+                    "state": "edit",
+                    "results_predicate": [
+                      [
+                        "SELF[SIZE] > %@",
+                        0
+                      ]
+                    ]
+                  }
+                ],
+                "query_predicate": [
+                  [
+                    "specialist.id IN %@",
+                    [
+                      "e2a0900d-a4f4-4c38-ba0f-17cc02fb73a7",
+                      "4e492deb-a334-4396-ad12-e9c1812b0d07"
+                    ]
+                  ],
+                  [
+                    "status=%@",
+                    "active"
+                  ],
+                  [
+                    "employee.isInternal=%@",
+                    false
+                  ]
+                ]
+              }
+            },
+            {
+              "id": "Add-EditVisit",
+              "states": {
+                "create": {
+                  "title": "Add Last Visit",
+                  "active": false
+                },
+                "edit": {
+                  "title": "Edit Last Visit",
+                  "active": true
+                }
+              },
+              "on_select": [
+                {
+                  "event_condition": "self='true'",
+                  "event_name": "DisplayRightPanel",
+                  "event_data": "AddLastVisit"
+                }
+              ],
+              "state_condition": {
+                "type": "ParticipantEncounterSummary",
+                "state_results": [
+                  {
+                    "state": "create",
+                    "results_predicate": [
+                      [
+                        "SELF[SIZE] == %@",
+                        0
+                      ]
+                    ]
+                  },
+                  {
+                    "state": "edit",
+                    "results_predicate": [
+                      [
+                        "SELF[SIZE] > %@",
+                        0
+                      ]
+                    ]
+                  }
+                ],
+                "query_predicate": [
+                  [
+                    "careTeamParticipant.specialist.id IN %@",
+                    [
+                      "e2a0900d-a4f4-4c38-ba0f-17cc02fb73a7",
+                      "4e492deb-a334-4396-ad12-e9c1812b0d07"
+                    ]
+                  ],
+                  [
+                    "careTeamParticipant.employee.isInternal=%@",
+                    false
+                  ],
+                  [
+                    "careTeamParticipant.status=%@",
+                    "active"
+                  ],
+                  [
+                    "encounterId=$encounterId"
+                  ],
+                  [
+                    "status<>%@",
+                    "entered-in-error"
+                  ]
+                ]
+              }
+            }
+          ],
+          "widgets": {
+            "SetUnderCareSince": {
+              "storage": {
+                "keys": {
+                  "onsetDate": "carePeriodStart"
+                }
+              },
+              "title": "Under Care Since",
+              "type": "OnsetWidget",
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "pop",
+                    "save": "parent"
+                  }
+                ]
+              }
+            },
+            "AddContact": {
+              "title": "Add Contact",
+              "items": [
+                {
+                  "mapped_to": "specialist",
+                  "title": "SPECIALIST TYPE",
+                  "on_select": {
+                    "event_name": "navigate",
+                    "event_data": "SetSpecialistType"
+                  },
+                  "type": "NestedLabel"
+                },
+                {
+                  "mapped_to": "status",
+                  "title": "PROVIDER STATUS",
+                  "on_select": {
+                    "event_name": "navigate",
+                    "event_data": "SetStatus"
+                  },
+                  "type": "NestedLabel",
+                  "enabled_if": "existsInDB=true"
+                },
+                {
+                  "mapped_to": "carePeriodStart",
+                  "title": "UNDER CARE SINCE",
+                  "on_select": {
+                    "event_name": "navigate",
+                    "event_data": "SetUnderCareSince"
+                  },
+                  "type": "NestedLabel",
+                  "visible_if": "obj.status=='active'"
+                },
+                {
+                  "mapped_to": "carePeriod",
+                  "title": "CARE PERIOD",
+                  "on_select": {
+                    "event_name": "navigate",
+                    "event_data": "SetCarePeriod"
+                  },
+                  "type": "NestedLabel",
+                  "visible_if": "obj.status=='inactive'"
+                },
+                {
+                  "mapped_to": "self",
+                  "observe_keys": [
+                    "employee.name",
+                    "employee.location",
+                    "employee.contactNumber1",
+                    "employee.contactNumber2"
+                  ],
+                  "on_select": {
+                    "event_name": "clear_values",
+                    "event_data": {}
+                  },
+                  "type": "HeaderCount"
+                },
+                {
+                  "return_key": "next",
+                  "mapped_to": "employee.name",
+                  "title": "Name:",
+                  "on_select": {
+                    "event_name": "show_keyboard"
+                  },
+                  "text": "Dr. ",
+                  "type": "TextInput",
+                  "autocapitalization": "words"
+                },
+                {
+                  "mapped_to": "employee.location",
+                  "title": "Location:",
+                  "on_select": {
+                    "event_name": "show_keyboard"
+                  },
+                  "type": "TextInput",
+                  "return_key": "next"
+                },
+                {
+                  "mapped_to": "employee.contactNumber1",
+                  "title": "Contact Number 1:",
+                  "on_select": {
+                    "event_name": "show_phone_number_pad"
+                  },
+                  "type": "TextInput",
+                  "text": "+91"
+                },
+                {
+                  "mapped_to": "employee.contactNumber2",
+                  "title": "Contact Number 2:",
+                  "on_select": {
+                    "event_name": "show_phone_number_pad"
+                  },
+                  "type": "TextInput",
+                  "text": "+91"
+                }
+              ],
+              "type": "NestedLabelWidget",
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "close",
+                    "save": "db"
+                  }
+                ]
+              }
+            },
+            "SetCarePeriod": {
+              "storage": {
+                "keys": {
+                  "toDate": "carePeriodEnd",
+                  "fromDate": "carePeriodStart"
+                }
+              },
+              "title": "Care Period",
+              "type": "DateRangeWidget",
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "pop",
+                    "save": "parent"
+                  }
+                ]
+              }
+            },
+            "SetSpecialistType": {
+              "storage": {
+                "keys": {
+                  "selectedValue": "specialist"
+                }
+              },
+              "title": "Specialist Type",
+              "items": [
+                {
+                  "type": "SingleSelect",
+                  "title": "Neurologist",
+                  "value": {
+                    "id": "e2a0900d-a4f4-4c38-ba0f-17cc02fb73a7",
+                    "name": "Neurologist",
+                    "type": "Specialist",
+                    "cognate_specialists": [
+                      {
+                        "id": "4e492deb-a334-4396-ad12-e9c1812b0d07"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "type": "SingleSelect",
+                  "title": "Neuropsychiatrist",
+                  "value": {
+                    "id": "4e492deb-a334-4396-ad12-e9c1812b0d07",
+                    "name": "Neuropsychiatrist",
+                    "type": "Specialist",
+                    "cognate_specialists": [
+                      {
+                        "id": "e2a0900d-a4f4-4c38-ba0f-17cc02fb73a7"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "type": "SingleSelectWidget",
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "pop",
+                    "save": "parent"
+                  }
+                ]
+              },
+              "isMandatory": true
+            },
+            "AddLastVisit": {
+              "storage": {
+                "keys": {
+                  "onsetDate": "visit"
+                },
+                "object": {
+                  "type": "ParticipantEncounterSummary",
+                  "additional_data": {
+                    "status": "active",
+                    "careTeamParticipant": {
+                      "type": "CareTeamParticipant",
+                      "find_existing": [
+                        [
+                          "specialist.id IN %@",
+                          [
+                            "e2a0900d-a4f4-4c38-ba0f-17cc02fb73a7",
+                            "4e492deb-a334-4396-ad12-e9c1812b0d07"
+                          ]
+                        ],
+                        [
+                          "status=%@",
+                          "active"
+                        ]
+                      ],
+                      "additional_data": {
+                        "status": "active",
+                        "specialist": {
+                          "id": "e2a0900d-a4f4-4c38-ba0f-17cc02fb73a7",
+                          "name": "Neurologist",
+                          "type": "Specialist",
+                          "cognate_specialists": [
+                            {
+                              "id": "4e492deb-a334-4396-ad12-e9c1812b0d07"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "title": "Last Visit",
+              "type": "OnsetWidget",
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "close",
+                    "save": "db"
+                  }
+                ]
+              }
+            },
+            "SetStatus": {
+              "storage": {
+                "keys": {
+                  "selectedValue": "status"
+                }
+              },
+              "title": "Provider Status",
+              "items": [
+                {
+                  "type": "SingleSelect",
+                  "title": "Currently Seeing",
+                  "value": "active"
+                },
+                {
+                  "type": "SingleSelect",
+                  "title": "No Longer Seeing",
+                  "value": "inactive"
+                }
+              ],
+              "type": "SingleSelectWidget",
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "pop",
+                    "save": "parent"
+                  }
+                ]
+              },
+              "isMandatory": true
+            },
+            "AddPastContact": {
+              "title": "Add Contact",
+              "items": [
+                {
+                  "mapped_to": "specialist",
+                  "title": "SPECIALIST TYPE",
+                  "on_select": {
+                    "event_name": "navigate",
+                    "event_data": "SetSpecialistType"
+                  },
+                  "type": "NestedLabel"
+                },
+                {
+                  "mapped_to": "status",
+                  "title": "PROVIDER STATUS",
+                  "on_select": {
+                    "event_name": "navigate",
+                    "event_data": "SetStatus"
+                  },
+                  "type": "NestedLabel"
+                },
+                {
+                  "mapped_to": "carePeriodStart",
+                  "title": "UNDER CARE SINCE",
+                  "on_select": {
+                    "event_name": "navigate",
+                    "event_data": "SetUnderCareSince"
+                  },
+                  "type": "NestedLabel",
+                  "visible_if": "obj.status=='active'"
+                },
+                {
+                  "mapped_to": "carePeriod",
+                  "title": "CARE PERIOD",
+                  "on_select": {
+                    "event_name": "navigate",
+                    "event_data": "SetCarePeriod"
+                  },
+                  "type": "NestedLabel",
+                  "visible_if": "obj.status=='inactive'"
+                },
+                {
+                  "mapped_to": "self",
+                  "observe_keys": [
+                    "employee.name",
+                    "employee.location",
+                    "employee.contactNumber1",
+                    "employee.contactNumber2"
+                  ],
+                  "on_select": {
+                    "event_name": "clear_values",
+                    "event_data": {}
+                  },
+                  "type": "HeaderCount"
+                },
+                {
+                  "return_key": "next",
+                  "mapped_to": "employee.name",
+                  "title": "Name:",
+                  "on_select": {
+                    "event_name": "show_keyboard"
+                  },
+                  "text": "Dr. ",
+                  "type": "TextInput",
+                  "autocapitalization": "words"
+                },
+                {
+                  "mapped_to": "employee.location",
+                  "title": "Location:",
+                  "on_select": {
+                    "event_name": "show_keyboard"
+                  },
+                  "type": "TextInput",
+                  "return_key": "next"
+                },
+                {
+                  "mapped_to": "employee.contactNumber1",
+                  "title": "Contact Number 1:",
+                  "on_select": {
+                    "event_name": "show_phone_number_pad"
+                  },
+                  "type": "TextInput",
+                  "text": "+91"
+                },
+                {
+                  "mapped_to": "employee.contactNumber2",
+                  "title": "Contact Number 2:",
+                  "on_select": {
+                    "event_name": "show_phone_number_pad"
+                  },
+                  "type": "TextInput",
+                  "text": "+91"
+                }
+              ],
+              "type": "NestedLabelWidget",
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "close",
+                    "save": "db"
+                  }
+                ]
+              }
+            },
+            "SelectPastSpecialist": {
+              "storage": {
+                "object": {
+                  "type": "CareTeamParticipant",
+                  "additional_data": {
+                    "status": "inactive"
+                  }
+                }
+              },
+              "title": "Select Specialist",
+              "items": [
+                {
+                  "value": {
+                    "status": "inactive",
+                    "employee": {
+                      "type": "Employee"
+                    },
+                    "specialist": {
+                      "id": "e2a0900d-a4f4-4c38-ba0f-17cc02fb73a7",
+                      "name": "Neurologist",
+                      "type": "Specialist",
+                      "cognate_specialists": [
+                        {
+                          "id": "4e492deb-a334-4396-ad12-e9c1812b0d07"
+                        }
+                      ]
+                    }
+                  },
+                  "title": "Neurologist",
+                  "on_select": {
+                    "event_name": "navigate",
+                    "event_data": "AddPastContact"
+                  },
+                  "type": "NestedLabel"
+                },
+                {
+                  "value": {
+                    "status": "inactive",
+                    "employee": {
+                      "type": "Employee"
+                    },
+                    "specialist": {
+                      "id": "4e492deb-a334-4396-ad12-e9c1812b0d07",
+                      "name": "Neuropsychiatrist",
+                      "type": "Specialist",
+                      "cognate_specialists": [
+                        {
+                          "id": "e2a0900d-a4f4-4c38-ba0f-17cc02fb73a7"
+                        }
+                      ]
+                    }
+                  },
+                  "title": "Neuropsychiatrist",
+                  "on_select": {
+                    "event_name": "navigate",
+                    "event_data": "AddPastContact"
+                  },
+                  "type": "NestedLabel"
+                }
+              ],
+              "type": "NestedLabelWidget",
+              "onLoad": [
+                {
+                  "event_condition": "specialist <> nil",
+                  "event_name": "replace",
+                  "event_data": "AddContact"
+                }
+              ]
+            },
+            "SelectSpecialist": {
+              "storage": {
+                "object": {
+                  "type": "CareTeamParticipant",
+                  "find_existing": [
+                    [
+                      "specialist.id IN %@",
+                      [
+                        "e2a0900d-a4f4-4c38-ba0f-17cc02fb73a7",
+                        "4e492deb-a334-4396-ad12-e9c1812b0d07"
+                      ]
+                    ],
+                    [
+                      "status=%@",
+                      "active"
+                    ],
+                    [
+                      "employee.isInternal=%@",
+                      false
+                    ]
+                  ],
+                  "additional_data": {
+                    "status": "active"
+                  }
+                }
+              },
+              "title": "Select Specialist",
+              "items": [
+                {
+                  "value": {
+                    "employee": {
+                      "type": "Employee"
+                    },
+                    "specialist": {
+                      "id": "e2a0900d-a4f4-4c38-ba0f-17cc02fb73a7",
+                      "name": "Neurologist",
+                      "type": "Specialist",
+                      "cognate_specialists": [
+                        {
+                          "id": "4e492deb-a334-4396-ad12-e9c1812b0d07"
+                        }
+                      ]
+                    }
+                  },
+                  "title": "Neurologist",
+                  "on_select": {
+                    "event_name": "navigate",
+                    "event_data": "AddContact"
+                  },
+                  "type": "NestedLabel"
+                },
+                {
+                  "value": {
+                    "employee": {
+                      "type": "Employee"
+                    },
+                    "specialist": {
+                      "id": "4e492deb-a334-4396-ad12-e9c1812b0d07",
+                      "name": "Neuropsychiatrist",
+                      "type": "Specialist",
+                      "cognate_specialists": [
+                        {
+                          "id": "e2a0900d-a4f4-4c38-ba0f-17cc02fb73a7"
+                        }
+                      ]
+                    }
+                  },
+                  "title": "Neuropsychiatrist",
+                  "on_select": {
+                    "event_name": "navigate",
+                    "event_data": "AddContact"
+                  },
+                  "type": "NestedLabel"
+                }
+              ],
+              "type": "NestedLabelWidget",
+              "onLoad": [
+                {
+                  "event_condition": "specialist <> nil",
+                  "event_name": "replace",
+                  "event_data": "AddContact"
+                }
+              ]
+            }
+          },
+          "on_change_listener": {
+            "type": "CareTeamParticipant",
+            "query_predicate": [
+              [
+                "specialist.id IN %@",
+                [
+                  "e2a0900d-a4f4-4c38-ba0f-17cc02fb73a7",
+                  "4e492deb-a334-4396-ad12-e9c1812b0d07"
+                ]
+              ],
+              [
+                "employee.isInternal=%@",
+                false
+              ]
+            ]
+          },
+          "summary": {
+            "type": "Specialist",
+            "storage": {
+              "model": "CareTeamParticipant",
+              "sorts": [
+                {
+                  "carePeriodStart": false
+                }
+              ],
+              "find_existing": [
+                [
+                  "specialist.id IN %@",
+                  [
+                    "e2a0900d-a4f4-4c38-ba0f-17cc02fb73a7",
+                    "4e492deb-a334-4396-ad12-e9c1812b0d07"
+                  ]
+                ]
+              ]
+            },
+            "events": {
+              "current_add_contact": {
+                "event_name": "DisplayRightPanel",
+                "event_data": "SelectSpecialist"
+              },
+              "add_edit_visit": {
+                "event_name": "DisplayRightPanel",
+                "event_data": "AddLastVisit"
+              },
+              "delete_visit": {
+                "event_name": "Delete"
+              },
+              "past_add_contact": {
+                "event_name": "DisplayRightPanel",
+                "event_data": "SelectPastSpecialist"
+              },
+              "delete_contact": {
+                "event_name": "Delete"
+              },
+              "past_custom_action": {
+                "event_name": "MakeCurrent"
+              },
+              "current_custom_action": {
+                "event_name": "MakePast"
+              }
+            }
+          }
+        }
+      ],
+      "id": "8555c389-ee57-430b-a791-fcc7a1fbe758",
+      "name": "Cognitive Impairment",
+      "type": "Card",
+      "acronym": "CI"
+    },
+    {
+      "id": "card-3",
+      "name": "Third Card",
+      "type": "Card",
+      "acronym": "3RD",
+      "questions": [
+        {
+          "id": "card-3-question-1",
+          "title": "Test single unit numberinput",
+          "buttons": [
+            {
+              "title": "Add",
+              "on_select": [
+                {
+                  "event_data": "ShowNumberInputWidget",
+                  "event_name": "DisplayRightPanel",
+                  "event_condition": "self='true'"
+                }
+              ]
+            }
+          ],
+          "widgets": {
+            "ShowNumberInputWidget": {
+              "type": "NumberInputWidget",
+              "prefix": "No. of Hours:",
+              "maxIntegerPartDigitsCount": 2,
+              "isDecimalAllowed": false,
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "close",
+                    "save": "db"
+                  }
+                ]
+              },
+              "storage": {
+                "keys": {
+                  "number": "valueString",
+                  "unit": "valueUnit"
+                },
+                "object": {
+                  "type": "Observation",
+                  "additional_data": {
+                    "id": "SingleUnitObservation"
+                  }
+                }
+              },
+              "units": [
+                "hrs per day"
+              ]
+            }
+          },
+          "summary": {
+            "type": "RecentRecords",
+            "storage": {
+              "model": "Observation",
+              "find_existing": [
+                [
+                  "id=%@",
+                  "SingleUnitObservation"
+                ]
+              ]
+            },
+            "item_templates": [
+              {
+                "template": "{{obj.valueString}} {{obj.valueUnit}}"
+              }
+            ]
+          }
+        },
+        {
+          "id": "card-3-question-2",
+          "title": "Test single unit numberinput with title",
+          "buttons": [
+            {
+              "title": "Add",
+              "on_select": [
+                {
+                  "event_data": "ShowNumberInputWidget",
+                  "event_name": "DisplayRightPanel",
+                  "event_condition": "self='true'"
+                }
+              ]
+            }
+          ],
+          "widgets": {
+            "ShowNumberInputWidget": {
+              "title": "This is a really long long long long long long long long long title",
+              "type": "NumberInputWidget",
+              "prefix": "",
+              "maxIntegerPartDigitsCount": 2,
+              "isDecimalAllowed": false,
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "close",
+                    "save": "db"
+                  }
+                ]
+              },
+              "storage": {
+                "keys": {
+                  "number": "valueString",
+                  "unit": "valueUnit"
+                },
+                "object": {
+                  "type": "Observation",
+                  "additional_data": {
+                    "id": "SingleUnitWithTitleObservation"
+                  }
+                }
+              },
+              "units": [
+                "hrs per day"
+              ]
+            }
+          },
+          "summary": {
+            "type": "RecentRecords",
+            "storage": {
+              "model": "Observation",
+              "find_existing": [
+                [
+                  "id=%@",
+                  "SingleUnitWithTitleObservation"
+                ]
+              ]
+            },
+            "item_templates": [
+              {
+                "template": "{{obj.valueString}} {{obj.valueUnit}}"
+              }
+            ]
+          }
+        },
+        {
+          "id": "card-3-question-3",
+          "title": "Test multiple unit numberinput",
+          "buttons": [
+            {
+              "title": "Add",
+              "on_select": [
+                {
+                  "event_data": "ShowNumberInputWidget",
+                  "event_name": "DisplayRightPanel",
+                  "event_condition": "self='true'"
+                }
+              ]
+            }
+          ],
+          "widgets": {
+            "ShowNumberInputWidget": {
+              "type": "NumberInputWidget",
+              "prefix": "Waist Size:",
+              "maxIntegerPartDigitsCount": 2,
+              "maxFractionalPartDigitsCount": 3,
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "close",
+                    "save": "db"
+                  }
+                ]
+              },
+              "storage": {
+                "keys": {
+                  "number": "valueString",
+                  "unit": "valueUnit"
+                },
+                "object": {
+                  "type": "Observation",
+                  "additional_data": {
+                    "id": "MultipleUnitObservation"
+                  }
+                }
+              },
+              "units": [
+                "cm",
+                "in"
+              ]
+            }
+          },
+          "summary": {
+            "type": "RecentRecords",
+            "storage": {
+              "model": "Observation",
+              "find_existing": [
+                [
+                  "id=%@",
+                  "MultipleUnitObservation"
+                ]
+              ]
+            },
+            "item_templates": [
+              {
+                "template": "{{obj.valueString}} {{obj.valueUnit}}"
+              }
+            ]
+          }
+        },
+        {
+          "id": "card-3-question-4",
+          "title": "Test multiple unit numberinput with title",
+          "buttons": [
+            {
+              "title": "Add",
+              "on_select": [
+                {
+                  "event_data": "ShowNumberInputWidget",
+                  "event_name": "DisplayRightPanel",
+                  "event_condition": "self='true'"
+                }
+              ]
+            }
+          ],
+          "widgets": {
+            "ShowNumberInputWidget": {
+              "title": "This is a really long long long long long long long long long title",
+              "type": "NumberInputWidget",
+              "prefix": "",
+              "maxIntegerPartDigitsCount": 2,
+              "maxFractionalPartDigitsCount": 3,
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "close",
+                    "save": "db"
+                  }
+                ]
+              },
+              "storage": {
+                "keys": {
+                  "number": "valueString",
+                  "unit": "valueUnit"
+                },
+                "object": {
+                  "type": "Observation",
+                  "additional_data": {
+                    "id": "MultipleUnitWithTitleObservation"
+                  }
+                }
+              },
+              "units": [
+                "cm",
+                "in"
+              ]
+            }
+          },
+          "summary": {
+            "type": "RecentRecords",
+            "storage": {
+              "model": "Observation",
+              "find_existing": [
+                [
+                  "id=%@",
+                  "MultipleUnitWithTitleObservation"
+                ]
+              ]
+            },
+            "item_templates": [
+              {
+                "template": "{{obj.valueString}} {{obj.valueUnit}}"
+              }
+            ]
+          }
+        },
+        {
+          "id": "card-3-question-5",
+          "title": "Test multiselectlist",
+          "buttons": [
+            {
+              "title": "Add",
+              "on_select": [
+                {
+                  "event_data": "ShowMultiSelectList",
+                  "event_name": "DisplayRightPanel",
+                  "event_condition": "self='true'"
+                }
+              ]
+            }
+          ],
+          "widgets": {
+            "ShowMultiSelectList": {
+              "type": "MultiSelectListWidget",
+              "items": [
+                {
+                  "type": "MultiSelect",
+                  "title": "Option 1",
+                  "value": "Option 1"
+                },
+                {
+                  "type": "MultiSelect",
+                  "title": "Option 2",
+                  "value": "Option 2"
+                },
+                {
+                  "type": "MultiSelect",
+                  "title": "Option 3",
+                  "value": "Option 3"
+                },
+                {
+                  "type": "MultiSelect",
+                  "title": "Option 4",
+                  "value": "Option 4"
+                },
+                {
+                  "type": "MultiSelect",
+                  "title": "Option 5",
+                  "value": "Option 5"
+                },
+                {
+                  "type": "MultiSelect",
+                  "title": "Option 6",
+                  "value": "Option 6"
+                }
+              ],
+              "title": "Test",
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "close",
+                    "save": "db"
+                  }
+                ]
+              },
+              "storage": {
+                "keys": {
+                  "selectedValues": "valueArray"
+                },
+                "object": {
+                  "type": "Observation",
+                  "find_existing": []
+                }
+              },
+              "isMandatory": true
+            }
+          }
+        },
+        {
+          "id": "card-3-question-6",
+          "title": "Test multiselectlist with objects",
+          "buttons": [
+            {
+              "title": "Add",
+              "on_select": [
+                {
+                  "event_data": "ShowMultiSelectList",
+                  "event_name": "DisplayRightPanel",
+                  "event_condition": "self='true'"
+                }
+              ]
+            }
+          ],
+          "widgets": {
+            "ShowMultiSelectList": {
+              "type": "MultiSelectListWidget",
+              "items": [
+                {
+                  "type": "MultiSelect",
+                  "title": "Option 1",
+                  "value": {
+                    "type": "Observation",
+                    "id": "observation-1-uuid"
+                  }
+                },
+                {
+                  "type": "MultiSelect",
+                  "title": "Option 2",
+                  "value": {
+                    "type": "Observation",
+                    "id": "observation-2-uuid"
+                  }
+                },
+                {
+                  "type": "MultiSelect",
+                  "title": "Option 3",
+                  "value": {
+                    "type": "Observation",
+                    "id": "observation-3-uuid"
+                  }
+                },
+                {
+                  "type": "MultiSelect",
+                  "title": "Option 4",
+                  "value": {
+                    "type": "Observation",
+                    "id": "observation-4-uuid"
+                  }
+                },
+                {
+                  "type": "MultiSelect",
+                  "title": "Option 5",
+                  "value": {
+                    "type": "Observation",
+                    "id": "observation-5-uuid"
+                  }
+                },
+                {
+                  "type": "MultiSelect",
+                  "title": "Option 6",
+                  "value": {
+                    "type": "Observation",
+                    "id": "observation-6-uuid"
+                  }
+                }
+              ],
+              "title": "Test",
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "close",
+                    "save": "db"
+                  }
+                ]
+              },
+              "storage": {
+                "keys": {
+                  "selectedValues": "components"
+                },
+                "object": {
+                  "type": "Observation",
+                  "find_existing": [
+                    [
+                      "components.@count>0"
+                    ]
+                  ]
+                }
+              },
+              "isMandatory": true
+            }
+          }
+        },
+        {
+          "id": "card-3-question-7",
+          "title": "Test singleselectlist",
+          "buttons": [
+            {
+              "title": "Add",
+              "on_select": [
+                {
+                  "event_data": "ShowSingleSelectList",
+                  "event_name": "DisplayRightPanel",
+                  "event_condition": "self='true'"
+                }
+              ]
+            }
+          ],
+          "widgets": {
+            "ShowSingleSelectList": {
+              "type": "SingleSelectWidget",
+              "items": [
+                {
+                  "type": "SingleSelect",
+                  "title": "Option 1",
+                  "value": "Option 1"
+                },
+                {
+                  "type": "SingleSelect",
+                  "title": "Option 2",
+                  "value": "Option 2"
+                },
+                {
+                  "type": "SingleSelect",
+                  "title": "Option 3",
+                  "value": "Option 3"
+                },
+                {
+                  "type": "SingleSelect",
+                  "title": "Option 4",
+                  "value": "Option 4"
+                },
+                {
+                  "type": "SingleSelect",
+                  "title": "Option 5",
+                  "value": "Option 5"
+                },
+                {
+                  "type": "SingleSelect",
+                  "title": "Option 6",
+                  "value": "Option 6"
+                }
+              ],
+              "title": "Test",
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "close",
+                    "save": "db"
+                  }
+                ]
+              },
+              "storage": {
+                "keys": {
+                  "selectedValue": "valueString"
+                },
+                "object": {
+                  "type": "Observation",
+                  "find_existing": [
+                    [
+                      "valueString<>null"
+                    ]
+                  ]
+                }
+              },
+              "isMandatory": true
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "card-4",
+      "name": "Investigation",
+      "type": "Card",
+      "acronym": "INV",
+      "questions": [
+        {
+          "id": "card-4-question-1",
+          "title": "Add Investigation",
+          "buttons": [
+            {
+              "title": "Add",
+              "on_select": [
+                {
+                  "event_data": "AddInvestigation",
+                  "event_name": "DisplayRightPanel",
+                  "event_condition": "self='true'"
+                }
+              ]
+            }
+          ],
+          "widgets": {
+            "AddInvestigation": {
+              "type": "NestedLabelWidget",
+              "items": [
+                {
+                  "type": "NestedLabel",
+                  "title": "CONCLUSION",
+                  "mapped_to": null,
+                  "on_select": {
+                    "event_data": "SetConclusion",
+                    "event_name": "navigate"
+                  }
+                },
+                {
+                  "type": "NestedLabel",
+                  "title": "OUTCOME",
+                  "mapped_to": null,
+                  "on_select": {
+                    "event_data": "SetOutcome",
+                    "event_name": "navigate"
+                  }
+                },
+                {
+                  "type": "AddFile",
+                  "title": "+ ADD PHOTO(S)",
+                  "observe_keys": [
+                    "files"
+                  ],
+                  "on_click": [
+                    {
+                      "event_condition": "tag == 2",
+                      "event_name": "present",
+                      "event_data": "ShowImagePicker"
+                    },
+                    {
+                      "event_condition": "tag == 4",
+                      "event_name": "present",
+                      "event_data": "ShowGallery"
+                    }
+                  ],
+                  "mapped_to": "activeFilesCount"
+                }
+              ],
+              "title": "Provider Contact",
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "close",
+                    "save": "db"
+                  }
+                ]
+              },
+              "storage": {
+                "object": {
+                  "type": "Observation",
+                  "additional_data": {
+                    "id": "55d2b310-7e9c-11e8-adc0-fa7ae01bbebc",
+                    "status":"active",
+                    "code":"test_code"
+                    }
+                }
+              }
+            },
+            "ShowGallery": {
+              "type": "GalleryWidget",
+              "storage": {
+                "keys": {
+                  "files": "files"
+                }
+              },
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "dismiss",
+                    "save": "parent"
+                  }
+                ]
+              }
+            },
+            "ShowImagePicker": {
+              "type": "ImagePickerWidget",
+              "panel_name":"Investigation",
+              "storage": {
+                "keys": {
+                  "files": "files"
+                }
+              },
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "dismiss",
+                    "save": "parent"
+                  }
+                ]
+              }
+            }
+          },
+          "events":{
+            "edit": {
+              "event_name": "DisplayRightPanel",
+              "event_data": "AddInvestigation"
+            }
+          },
+          "summary": {
+            "type": "RecentRecords",
+            "storage": {
+              "model": "Observation",
+              "find_existing": [
+                [
+                  "id=%@",
+                  "55d2b310-7e9c-11e8-adc0-fa7ae01bbebc"
+                ],
+                [
+                  "status=%@",
+                  "active"
+                ]
+              ]
+            },
+            "item_templates": [
+              {
+                 "template": "{{obj.id}}"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

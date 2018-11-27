@@ -1,0 +1,61 @@
+extension UIFont {
+   
+    // Display font
+    public class func regularDisplayOfSize(_ size: CGFloat) -> UIFont {
+        return UIFont(name: "SFUIDisplay-Regular", size: size)!
+    }
+    class func lightDisplayOfSize(_ size: CGFloat) -> UIFont {
+        return UIFont(name: "SFUIDisplay-Light", size: size)!
+    }
+    class func ultralightDisplayOfSize(_ size: CGFloat) -> UIFont {
+        return UIFont(name: "SFUIDisplay-Ultralight", size: size)!
+    }
+    class func thinDisplayOfSize(_ size: CGFloat) -> UIFont {
+        return UIFont(name: "SFUIDisplay-Thin", size: size)!
+    }
+    class func boldDisplayOfSize(_ size: CGFloat) -> UIFont {
+        return UIFont(name: "SFUIDisplay-Bold", size: size)!
+    }
+    class func semiboldDisplayOfSize(_ size: CGFloat) -> UIFont {
+        return UIFont(name: "SFUIDisplay-Semibold", size: size)!
+    }
+    class func mediumDisplayOfSize(_ size: CGFloat) -> UIFont {
+        return UIFont(name: "SFUIDisplay-Medium", size: size)!
+    }
+    class func blackDisplayOfSize(_ size: CGFloat) -> UIFont {
+        return UIFont(name: "SFUIDisplay-Black", size: size)!
+    }
+    class func heavyDisplayOfSize(_ size: CGFloat) -> UIFont {
+        return UIFont(name: "SFUIDisplay-Heavy", size: size)!
+    }
+    
+    // Text font
+    
+    class func regularTextOfSize(_ size: CGFloat) -> UIFont {
+        return UIFont(name: "SFUIText-Regular", size: size)!
+    }
+    class func lightTextOfSize(_ size: CGFloat) -> UIFont {
+        return UIFont(name: "SFUIText-Light", size: size)!
+    }
+    class func boldTextOfSize(_ size: CGFloat) -> UIFont {
+        return UIFont(name: "SFUIText-Bold", size: size)!
+    }
+    class func semiboldTextOfSize(_ size: CGFloat) -> UIFont {
+        return UIFont(name: "SFUIText-Semibold", size: size)!
+    }
+    public class func mediumTextOfSize(_ size: CGFloat) -> UIFont {
+        return UIFont(name: "SFUIText-Medium", size: size)!
+    }
+    class func heavyTextOfSize(_ size: CGFloat) -> UIFont {
+        return UIFont(name: "SFUIText-Heavy", size: size)!
+    }
+    
+    // Calculate size of the string 
+    
+    func sizeOfString (_ string: String, constrainedToWidth width: Double) -> CGSize {
+        return NSString(string: string).boundingRect(with: CGSize(width: width, height: Double.greatestFiniteMagnitude),
+            options: NSStringDrawingOptions.usesLineFragmentOrigin,
+            attributes: [NSAttributedStringKey.font: self],
+            context: nil).size
+    }
+}

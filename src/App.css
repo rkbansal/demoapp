@@ -1,5 +1,7 @@
 .App {
   text-align: center;
+  background-color: #e7e7e7;
+  padding: 10px;
 }
 
 .App-logo {
@@ -29,4 +31,145 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.questionnaire-container {
+  display: flex;
+}
+.disabled {
+  display: none;
+}
+
+.leftPanel {
+  background-color: #f8f8f8
+}
+
+.leftpanel-heading {
+  min-height: 80px;
+  line-height: 100px;
+}
+
+.leftpanel-heading-title {
+  color: #a6a6a6;
+}
+
+.leftpanel-expand {
+  width: 30%;
+  flex: 1;
+}
+
+.leftpanel-collapse {
+  width: 10%
+}
+
+.questionnaire-cell {
+  border-bottom: solid 1px #e2e2e2;
+  min-height: 50px;
+  line-height: 50px;
+  color: #6eabbd;
+}
+
+/* .questionnaire-short-form{
+  
+}
+
+.questionnaire-full-form {
+  
+} */
+
+.middle-panel {
+  background-color: #ffffff;
+  flex: 4;
+}
+
+.title-panel{
+  color: #9f9f9f;
+  display: flex;
+  justify-content: space-between;
+  font-size: 20px;
+  margin-bottom: 15px;
+  padding:10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.done-button{
+  background-color: #ea8561;
+  border-color: #ed9c82;
+  color: #ffffff;
+  height: 40px;
+  font-size: 20px;
+  width: 200px;
+  border-radius: 3px;
+}
+.question-cell {
+  color: #939393;
+  height: 70px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.question-cell-text {
+  padding-left: 20px;
+}
+
+.question-cell-text:after {
+  content:"......"
+}
+.question-button {
+  height: 50px;
+  border: #f1f1f1;
+  background-color: #f8f8f8;
+  color: #76a6bf;
+  padding: 0px 20px;
+  margin: 0px 5px;
+}
+
+.right-panel {
+  min-width: 400px;
+  background-color: #ffffff;
+  padding: 10px;
+  border: solid 1px #f8f8f8;
+}
+
+.widget-header {
+  padding-bottom: 20px;
+  margin-bottom: 5px;
+}
+
+.header {
+  color: #b1b1b1;
+  font-size: 22px;
+  text-align: left;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.sub-header{
+  color: #b1b1b1;
+  text-align: left;
+  border-bottom: 1px solid #f7f7f7;
+  padding-bottom: 2px;
+}
+.single-select-cell {
+  display: flex;
+  height: 50px;
+  border-bottom: solid 1px #f1f1f1;
+  line-height: 50px;
+  background-color: #f8f8f8;
+  margin-bottom: 20px;
+  border-radius: 3px;
+}
+
+.single-select-left {
+  flex: 5;
+  color: #6eabbd;
+}
+
+.single-select-right {
+  flex: 1;
+}
+
+.single-select-radio-icon {
+  width: 20px;
+  height: 20px;
 }

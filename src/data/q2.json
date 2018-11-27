@@ -1,0 +1,4495 @@
+{
+  "id": "widgets",
+  "type": "Questionnaire",
+  "title": "WIDGETS",
+  "cards": [
+    {
+      "id": "card-datetime",
+      "type": "Card",
+      "name": "Date/Time",
+      "acronym": "DT",
+      "questions": [
+        {
+          "id": "card-datetime-onset",
+          "title": "Onset Widget",
+          "buttons": [
+            {
+              "title": "Test",
+              "on_select": [
+                {
+                  "event_name": "DisplayRightPanel",
+                  "event_data": "Test"
+                }
+              ]
+            }
+          ],
+          "events": {
+            "edit": {
+              "event_name": "DisplayRightPanel",
+              "event_data": "Test"
+            }
+          },
+          "widgets": {
+            "Test": {
+              "type": "OnsetWidget",
+              "age_default_unit":"Weeks",
+              "duration_default_unit":"Days",
+              "title": "Onset",
+              "storage": {
+                "keys": {
+                  "onsetDate": "valueOnset"
+                },
+                "object": {
+                  "type": "Observation",
+                  "additional_data": {
+                    "code": "card-datetime-onset"
+                  }
+                }
+              },
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "close",
+                    "save": "db"
+                  }
+                ]
+              }
+            }
+          },
+          "summary": {
+            "type": "RecentRecords",
+            "storage": {
+              "model": "Observation",
+              "find_existing": [
+                [
+                  "code=%@",
+                  "card-datetime-onset"
+                ],
+                [
+                  "status<>%@",
+                  "entered-in-error"
+                ]
+              ]
+            },
+            "item_templates": [
+              {
+                "template": "Onset: {{obj|displayValue:\"valueOnset\"}}"
+              }
+            ]
+          }
+        },
+        {
+          "id": "card-datetime-onset-without-unknown",
+          "title": "Onset Widget without Unknown",
+          "buttons": [
+            {
+              "title": "Test",
+              "on_select": [
+                {
+                  "event_name": "DisplayRightPanel",
+                  "event_data": "Test"
+                }
+              ]
+            }
+          ],
+          "events": {
+            "edit": {
+              "event_name": "DisplayRightPanel",
+              "event_data": "Test"
+            }
+          },
+          "widgets": {
+            "Test": {
+              "type": "OnsetWidget",
+              "title": "Onset",
+              "is_unknown_allowed": false,
+              "storage": {
+                "keys": {
+                  "onsetDate": "valueOnset"
+                },
+                "object": {
+                  "type": "Observation",
+                  "additional_data": {
+                    "code": "card-datetime-onset-without-unknown"
+                  }
+                }
+              },
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "close",
+                    "save": "db"
+                  }
+                ]
+              }
+            }
+          },
+          "summary": {
+            "type": "RecentRecords",
+            "storage": {
+              "model": "Observation",
+              "find_existing": [
+                [
+                  "code=%@",
+                  "card-datetime-onset-without-unknown"
+                ],
+                [
+                  "status<>%@",
+                  "entered-in-error"
+                ]
+              ]
+            },
+            "item_templates": [
+              {
+                "template": "Onset: {{obj|displayValue:\"valueOnset\"}}"
+              }
+            ]
+          }
+        },
+        {
+          "id": "card-datetime-duration",
+          "title": "Duration Widget",
+          "buttons": [
+            {
+              "title": "Test",
+              "on_select": [
+                {
+                  "event_name": "DisplayRightPanel",
+                  "event_data": "Test"
+                }
+              ]
+            }
+          ],
+          "events": {
+            "edit": {
+              "event_name": "DisplayRightPanel",
+              "event_data": "Test"
+            }
+          },
+          "widgets": {
+            "Test": {
+              "type": "DurationWidget",
+              "title": "Duration",
+              "is_onset": false,
+              "duration_default_unit":"Days",
+              "storage": {
+                "keys": {
+                  "duration": "duration"
+                },
+                "object": {
+                  "type": "PatientCondition",
+                  "additional_data": {
+                    "condition": {
+                      "type": "Condition",
+                      "id": "card-datetime-duration",
+                      "name": "card-datetime-duration test condition"
+                    },
+                    "clinicalStatus": "resolved",
+                    "verificationStatus": "confirmed"
+                  }
+                }
+              },
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "close",
+                    "save": "db"
+                  }
+                ]
+              }
+            }
+          },
+          "summary": {
+            "type": "RecentRecords",
+            "storage": {
+              "model": "PatientCondition",
+              "find_existing": [
+                [
+                  "condition.id IN %@",
+                  [
+                    "card-datetime-duration"
+                  ]
+                ],
+                [
+                  "clinicalStatus=%@",
+                  "resolved"
+                ],
+                [
+                  "verificationStatus=%@",
+                  "confirmed"
+                ]
+              ]
+            },
+            "item_templates": [
+              {
+                "template": "Duration from {{obj|displayValue:\"onset\"}} to {{obj|displayValue:\"abatement\"}} is {{obj|displayValue:\"duration\"}}"
+              }
+            ]
+          }
+        },
+        {
+          "id": "card-datetime-duration-without-unknown",
+          "title": "Duration Widget without Unknown",
+          "buttons": [
+            {
+              "title": "Test",
+              "on_select": [
+                {
+                  "event_name": "DisplayRightPanel",
+                  "event_data": "Test"
+                }
+              ]
+            }
+          ],
+          "events": {
+            "edit": {
+              "event_name": "DisplayRightPanel",
+              "event_data": "Test"
+            }
+          },
+          "widgets": {
+            "Test": {
+              "type": "DurationWidget",
+              "title": "Duration",
+              "is_onset": false,
+              "is_unknown_allowed": false,
+              "storage": {
+                "keys": {
+                  "duration": "duration"
+                },
+                "object": {
+                  "type": "PatientCondition",
+                  "additional_data": {
+                    "condition": {
+                      "type": "Condition",
+                      "id": "card-datetime-duration-without-unknown",
+                      "name": "card-datetime-duration-without-unknown test condition"
+                    },
+                    "clinicalStatus": "resolved",
+                    "verificationStatus": "confirmed"
+                  }
+                }
+              },
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "close",
+                    "save": "db"
+                  }
+                ]
+              }
+            }
+          },
+          "summary": {
+            "type": "RecentRecords",
+            "storage": {
+              "model": "PatientCondition",
+              "find_existing": [
+                [
+                  "condition.id IN %@",
+                  [
+                    "card-datetime-duration-without-unknown"
+                  ]
+                ],
+                [
+                  "clinicalStatus=%@",
+                  "resolved"
+                ],
+                [
+                  "verificationStatus=%@",
+                  "confirmed"
+                ]
+              ]
+            },
+            "item_templates": [
+              {
+                "template": "Duration from {{obj|displayValue:\"onset\"}} to {{obj|displayValue:\"abatement\"}} is {{obj|displayValue:\"duration\"}}"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "card-singleselectlist",
+      "type": "Card",
+      "name": "Single Select List",
+      "acronym": "SSL",
+      "questions": [
+        {
+          "id": "card-singleselectlist",
+          "title": "Condtion Special Case Single Select List",
+          "buttons": [
+            {
+              "title": "Test",
+              "on_select": [
+                {
+                  "event_name": "DisplayRightPanel",
+                  "event_data": "Test"
+                }
+              ]
+            }
+          ],
+          "events": {
+            "edit": {
+              "event_name": "DisplayRightPanel",
+              "event_data": "Test"
+            }
+          },
+          "widgets": {
+            "Test": {
+              "storage": {
+                "keys": {},
+                "object": {
+                  "type": "PatientCondition",
+                  "additional_data": {
+                    "id": "card-singleselectlist",
+                    "clinicalStatus": "active",
+                    "verificationStatus": "confirmed"
+                  },
+                  "find_existing": [
+                    [
+                      "id=%@",
+                      "card-singleselectlist"
+                    ]
+                  ]
+                }
+              },
+              "title": "Test",
+              "items": [
+                {
+                  "clear_button_title": "Clear",
+                  "mapped_to": "self",
+                  "on_select": {
+                    "event_name": "clear_values",
+                    "event_data": {}
+                  },
+                  "type": "HeaderCount",
+                  "bottom_padding": 20
+                },
+                {
+                  "type": "SingleSelect",
+                  "title": "active",
+                  "value": "active",
+                  "mapped_to": "clinicalStatus",
+                  "visible_if": "obj.clinicalStatus != 'active'"
+                },
+                {
+                  "type": "SingleSelect",
+                  "title": "progressed",
+                  "value": "progressed",
+                  "mapped_to": "clinicalStatus",
+                  "visible_if": "obj.clinicalStatus != 'progressed'"
+                },
+                {
+                  "type": "SingleSelect",
+                  "title": "inactive",
+                  "value": "inactive",
+                  "mapped_to": "clinicalStatus",
+                  "visible_if": "obj.clinicalStatus != 'inactive'"
+                },
+                {
+                  "type": "SingleSelect",
+                  "title": "recurrence",
+                  "value": "recurrence",
+                  "mapped_to": "clinicalStatus",
+                  "visible_if": "obj.clinicalStatus != 'recurrence'"
+                },
+                {
+                  "type": "SingleSelect",
+                  "title": "confirmed",
+                  "value": "confirmed",
+                  "mapped_to": "verificationStatus",
+                  "visible_if": "obj.verificationStatus != 'confirmed'"
+                },
+                {
+                  "type": "SingleSelect",
+                  "title": "provisional",
+                  "value": "provisional",
+                  "mapped_to": "verificationStatus",
+                  "visible_if": "obj.verificationStatus != 'provisional'"
+                },
+                {
+                  "type": "SingleSelect",
+                  "title": "refuted",
+                  "value": "refuted",
+                  "mapped_to": "verificationStatus",
+                  "visible_if": "obj.verificationStatus!='refuted'"
+                },
+                {
+                  "type": "SingleSelect",
+                  "title": "differential",
+                  "value": "differential",
+                  "mapped_to": "verificationStatus",
+                  "visible_if": "obj.verificationStatus != 'differential'"
+                }
+              ],
+              "type": "SingleSelectWidget",
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "close",
+                    "save": "db"
+                  }
+                ]
+              }
+            }
+          },
+          "summary": {
+            "type": "RecentRecords",
+            "storage": {
+              "model": "PatientCondition",
+              "find_existing": [
+                [
+                  "id=%@",
+                  "card-singleselectlist"
+                ]
+              ]
+            },
+            "item_templates": [
+              {
+                "template": "{{obj|displayValue:\"clinicalStatus\"}} {{obj|displayValue:\"verificationStatus\"}}"
+              }
+            ]
+          }
+        },
+        {
+          "id": "card-singleselectlist-nonmandatory",
+          "title": "Non mandatory Single Select List",
+          "buttons": [
+            {
+              "title": "Test",
+              "on_select": [
+                {
+                  "event_name": "DisplayRightPanel",
+                  "event_data": "Test"
+                }
+              ]
+            }
+          ],
+          "events": {
+            "edit": {
+              "event_name": "DisplayRightPanel",
+              "event_data": "Test"
+            }
+          },
+          "widgets": {
+            "Test": {
+              "storage": {
+                "keys": {},
+                "object": {
+                  "type": "Observation",
+                  "additional_data": {
+                    "id": "card-singleselectlist-nonmandatory",
+                    "status": "active",
+                    "valueString": "Option 1"
+                  },
+                  "find_existing": [
+                    [
+                      "id=%@",
+                      "card-singleselectlist-non_mandatory"
+                    ]
+                  ]
+                }
+              },
+              "title": "Test",
+              "items": [
+                {
+                  "clear_button_title": "Clear",
+                  "mapped_to": "self",
+                  "on_select": {
+                    "event_name": "clear_values",
+                    "event_data": {}
+                  },
+                  "type": "HeaderCount",
+                  "bottom_padding": 20
+                },
+                {
+                  "type": "SingleSelect",
+                  "title": "Option 1",
+                  "value": "Option 1",
+                  "mapped_to": "valueString"
+                },
+                {
+                  "type": "SingleSelect",
+                  "title": "Option 2",
+                  "value": "Option 2",
+                  "mapped_to": "valueString"
+                },
+                {
+                  "type": "SingleSelect",
+                  "title": "Option 3",
+                  "value": "Option 3",
+                  "mapped_to": "valueString"
+                }
+              ],
+              "type": "SingleSelectWidget",
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "close",
+                    "save": "db"
+                  }
+                ]
+              }
+            }
+          },
+          "summary": {
+            "type": "RecentRecords",
+            "storage": {
+              "model": "Observation",
+              "find_existing": [
+                [
+                  "id=%@",
+                  "card-singleselectlist-nonmandatory"
+                ]
+              ]
+            },
+            "item_templates": [
+              {
+                "template": "{{obj|displayValue:\"valueString\"}}"
+              }
+            ]
+          }
+        },
+        {
+          "id": "card-singleselectlist-mandatory",
+          "title": "Mandatory Single Select List",
+          "buttons": [
+            {
+              "title": "Test",
+              "on_select": [
+                {
+                  "event_name": "DisplayRightPanel",
+                  "event_data": "Test"
+                }
+              ]
+            }
+          ],
+          "events": {
+            "edit": {
+              "event_name": "DisplayRightPanel",
+              "event_data": "Test"
+            }
+          },
+          "widgets": {
+            "Test": {
+              "storage": {
+                "keys": {},
+                "object": {
+                  "type": "Observation",
+                  "additional_data": {
+                    "id": "card-singleselectlist-mandatory",
+                    "status": "active",
+                    "valueString": "Option 1"
+                  },
+                  "find_existing": [
+                    [
+                      "id=%@",
+                      "card-singleselectlist-mandatory"
+                    ]
+                  ]
+                }
+              },
+              "title": "Test",
+              "items": [
+                {
+                  "mapped_to": "self",
+                  "on_select": {
+                    "event_name": "clear_values",
+                    "event_data": {}
+                  },
+                  "type": "HeaderCount"
+                },
+                {
+                  "type": "Mandatory",
+                  "title":"You have to choose an item in the list."
+                },
+                {
+                  "type": "SingleSelect",
+                  "title": "Option 1",
+                  "value": "Option 1",
+                  "mapped_to": "valueString"
+                },
+                {
+                  "type": "SingleSelect",
+                  "title": "Option 2",
+                  "value": "Option 2",
+                  "mapped_to": "valueString"
+                },
+                {
+                  "type": "SingleSelect",
+                  "title": "Option 3",
+                  "value": "Option 3",
+                  "mapped_to": "valueString"
+                }
+              ],
+              "type": "SingleSelectWidget",
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "close",
+                    "save": "db"
+                  }
+                ]
+              },
+              "isMandatory": true
+            }
+          },
+          "summary": {
+            "type": "RecentRecords",
+            "storage": {
+              "model": "Observation",
+              "find_existing": [
+                [
+                  "id=%@",
+                  "card-singleselectlist-mandatory"
+                ]
+              ]
+            },
+            "item_templates": [
+              {
+                "template": "{{obj|displayValue:\"valueString\"}}"
+              }
+            ]
+          }
+        },
+        {
+          "id": "card-either-or-singleselectlist-nonmandatory",
+          "title": "Non mandatory Either or Single Select List",
+          "buttons": [
+            {
+              "title": "Test",
+              "on_select": [
+                {
+                  "event_name": "DisplayRightPanel",
+                  "event_data": "Test"
+                }
+              ]
+            }
+          ],
+          "events": {
+            "edit": {
+              "event_name": "DisplayRightPanel",
+              "event_data": "Test"
+            }
+          },
+          "widgets": {
+            "Test": {
+              "storage": {
+                "keys": {},
+                "object": {
+                  "type": "Observation",
+                  "additional_data": {
+                    "id": "card-either-or-singleselectlist-nonmandatory",
+                    "status": "active",
+                    "valueString": "Option 1"
+                  },
+                  "find_existing": [
+                    [
+                      "id=%@",
+                      "card-either-or-singleselectlist-nonmandatory"
+                    ]
+                  ]
+                }
+              },
+              "title": "Test",
+              "items": [
+                {
+                  "type": "SingleSelect",
+                  "title": "No Option",
+                  "value": "No Option",
+                  "mapped_to": "valueString"
+                },
+                {
+                  "title": "No Option",
+                  "type": "Header"
+                },
+                {
+                  "clear_button_title": "Clear",
+                  "mapped_to": "self",
+                  "filter_predicate": [
+                    [
+                      "valueString = %@",
+                      "No Option"
+                    ]
+                  ],
+                  "on_select": {
+                    "event_name": "clear_values",
+                    "event_data": {}
+                  },
+                  "type": "HeaderCount",
+                  "bottom_padding": 20
+                },
+                {
+                  "type": "SingleSelect",
+                  "title": "Option 1",
+                  "value": "Option 1",
+                  "mapped_to": "valueString"
+                },
+                {
+                  "type": "SingleSelect",
+                  "title": "Option 2",
+                  "value": "Option 2",
+                  "mapped_to": "valueString"
+                },
+                {
+                  "type": "SingleSelect",
+                  "title": "Option 3",
+                  "value": "Option 3",
+                  "mapped_to": "valueString"
+                }
+              ],
+              "type": "SingleSelectWidget",
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "close",
+                    "save": "db"
+                  }
+                ]
+              }
+            }
+          },
+          "summary": {
+            "type": "RecentRecords",
+            "storage": {
+              "model": "Observation",
+              "find_existing": [
+                [
+                  "id=%@",
+                  "card-either-or-singleselectlist-nonmandatory"
+                ]
+              ]
+            },
+            "item_templates": [
+              {
+                "template": "{{obj|displayValue:\"valueString\"}}"
+              }
+            ]
+          }
+        },
+        {
+          "id": "card-singleselectlistwithdetail",
+          "title": "Single Select List with Detail",
+          "buttons": [
+            {
+              "title": "Test",
+              "on_select": [
+                {
+                  "event_name": "DisplayRightPanel",
+                  "event_data": "Test"
+                }
+              ]
+            }
+          ],
+          "events": {
+            "edit": {
+              "event_name": "DisplayRightPanel",
+              "event_data": "Test"
+            }
+          },
+          "widgets": {
+            "Test": {
+              "storage": {
+                "keys": {},
+                "object": {
+                  "type": "PatientCondition",
+                  "additional_data": {
+                    "id": "card-singleselectlistwithdetail",
+                    "clinicalStatus": "active",
+                    "verificationStatus": "confirmed"
+                  },
+                  "find_existing": [
+                    [
+                      "id=%@",
+                      "card-singleselectlistwithdetail"
+                    ]
+                  ]
+                }
+              },
+              "title": "Test",
+              "items": [
+                {
+                  "type": "SingleSelect",
+                  "title": "provisional",
+                  "value": "provisional",
+                  "mapped_to": "verificationStatus",
+                  "additional_data": {
+                    "refutationReason": null
+                  }
+                },
+                {
+                  "type": "DetailSingleSelect",
+                  "title": "Refuted",
+                  "value": "refuted",
+                  "additional_attribute": "refutationReasonDisplayString",
+                  "mapped_to": "verificationStatus",
+                  "reason_title": "Reason",
+                  "alert_title": "ALERT!",
+                  "alert_text": "Status can't be changed after current visit",
+                  "on_select": {
+                    "event_name": "navigate",
+                    "event_data": "SetRefutationStatus"
+                  }
+                },
+                {
+                  "type": "SingleSelect",
+                  "title": "differential",
+                  "value": "differential",
+                  "mapped_to": "verificationStatus",
+                  "additional_data": {
+                    "refutationReason": null
+                  }
+                }
+              ],
+              "type": "SingleSelectWidget",
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "close",
+                    "save": "db"
+                  }
+                ]
+              }
+            },
+            "SetRefutationStatus": {
+              "type": "TextBoxWidget",
+              "title": "Refutation Reason",
+              "character_limit": 220,
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "close",
+                    "save": "db"
+                  }
+                ]
+              },
+              "storage": {
+                "keys": {
+                  "text": "refutationReason"
+                }
+              },
+              "hidden_fields": {
+                "verificationStatus": "refuted"
+              }
+            }
+          },
+          "summary": {
+            "type": "RecentRecords",
+            "storage": {
+              "model": "PatientCondition",
+              "find_existing": [
+                [
+                  "id=%@",
+                  "card-singleselectlistwithdetail"
+                ]
+              ]
+            },
+            "item_templates": [
+              {
+                "template": "{{obj|displayValue:\"clinicalStatus\"}} {{obj|displayValue:\"verificationStatus\"}}"
+              }
+            ]
+          }
+        },
+        {
+          "id": "card-singleselectlistwithinfo",
+          "title": "Test Info with Single Select",
+          "buttons": [
+            {
+              "title": "Add",
+              "on_select": [
+                {
+                  "event_data": "ShowSingleSelectWithInfoIcon",
+                  "event_name": "DisplayRightPanel"
+                }
+              ]
+            }
+          ],
+          "events": {
+            "edit": {
+              "event_name": "DisplayRightPanel",
+              "event_data": "ShowSingleSelectWithInfoIcon"
+            }
+          },
+          "widgets": {
+            "ShowSingleSelectWithInfoIcon": {
+              "type": "SingleSelectWidget",
+              "items": [
+                {
+                  "clear_button_title": "Clear",
+                  "mapped_to": "self",
+                  "on_select": {
+                    "event_name": "clear_values",
+                    "event_data": {}
+                  },
+                  "type": "HeaderCount",
+                  "bottom_padding": 20
+                },
+                {
+                  "type": "SingleSelect",
+                  "title": "Value 1",
+                  "value": "Value 1",
+                  "info_text": "<html><span style=\"font-family:'-apple-system','HelveticaNeue';color:rgb(109, 109, 109); font-size:18;\">Sample Text</span></html>",
+                  "mapped_to": "valueString"
+                },
+                {
+                  "type": "SingleSelect",
+                  "title": "Value 2",
+                  "value": "Value 2",
+                  "info_text": "<html><span style=\"font-family:'-apple-system','HelveticaNeue';color:rgb(109, 109, 109); font-size:18;\"><i>Lorem ipsum dolor sit amet</i>, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</br>  Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</span></html>",
+                  "mapped_to": "valueString"
+                },
+                {
+                  "type": "SingleSelect",
+                  "title": "Value 3",
+                  "value": "Value 3",
+                  "info_text": "<html><span style=\"font-family:'-apple-system','HelveticaNeue'; color:rgb(109, 109, 109); font-size:18;\">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. <b> bold</b></span></html>",
+                  "mapped_to": "valueString"
+                }
+              ],
+              "title": "Test",
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "close",
+                    "save": "db"
+                  }
+                ]
+              },
+              "storage": {
+                "keys": {},
+                "object": {
+                  "type": "Observation",
+                  "additional_data": {
+                    "id": "card-singleselectlistwithinfo"
+                  },
+                  "find_existing": [
+                    [
+                      "id=%@",
+                      "card-singleselectlistwithinfo"
+                    ]
+                  ]
+                }
+              }
+            }
+          },
+          "summary": {
+            "type": "RecentRecords",
+            "storage": {
+              "model": "Observation",
+              "find_existing": [
+                [
+                  "id=%@",
+                  "card-singleselectlistwithinfo"
+                ]
+              ]
+            },
+            "item_templates": [
+              {
+                "template": "{{obj|displayValue:\"valueString\"}}"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "card-numberinput",
+      "type": "Card",
+      "name": "Number Input",
+      "acronym": "No I/P",
+      "questions": [
+        {
+          "id": "card-numberinput-singleunit",
+          "title": "Test single unit numberinput",
+          "buttons": [
+            {
+              "title": "Add",
+              "on_select": [
+                {
+                  "event_data": "ShowNumberInputWidget",
+                  "event_name": "DisplayRightPanel"
+                }
+              ]
+            }
+          ],
+          "events": {
+            "edit": {
+              "event_name": "DisplayRightPanel",
+              "event_data": "ShowNumberInputWidget"
+            }
+          },
+          "widgets": {
+            "ShowNumberInputWidget": {
+              "type": "NumberInputWidget",
+              "prefix": "No. of Hours:",
+              "max_integerdigits_count": 2,
+              "decimal_allowed": false,
+              "max_value":24,  
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "close",
+                    "save": "db"
+                  }
+                ]
+              },
+              "storage": {
+                "keys": {
+                  "number": "valueString",
+                  "unit": "valueUnit"
+                },
+                "object": {
+                  "type": "Observation",
+                  "additional_data": {
+                    "id": "SingleUnitObservation"
+                  }
+                }
+              },
+              "units": [
+                "hrs per day"
+              ]
+            }
+          },
+          "summary": {
+            "type": "RecentRecords",
+            "storage": {
+              "model": "Observation",
+              "find_existing": [
+                [
+                  "id=%@",
+                  "SingleUnitObservation"
+                ]
+              ]
+            },
+            "item_templates": [
+              {
+                "template": "{{obj|displayValue:\"valueString\"}} {{obj|displayValue:\"valueUnit\"}}"
+              }
+            ]
+          }
+        },
+        {
+          "id": "card-numberinput-with-title",
+          "title": "Test single unit numberinput with title",
+          "buttons": [
+            {
+              "title": "Add",
+              "on_select": [
+                {
+                  "event_data": "ShowNumberInputWidget",
+                  "event_name": "DisplayRightPanel"
+                }
+              ]
+            }
+          ],
+          "events": {
+            "edit": {
+              "event_name": "DisplayRightPanel",
+              "event_data": "ShowNumberInputWidget"
+            }
+          },
+          "widgets": {
+            "ShowNumberInputWidget": {
+              "title": "This is a really long long long long long long long long long title",
+              "type": "NumberInputWidget",
+              "prefix": "",
+              "max_integerdigits_count": 2,
+              "decimal_allowed": false,
+              "max_value":24,
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "close",
+                    "save": "db"
+                  }
+                ]
+              },
+              "storage": {
+                "keys": {
+                  "number": "valueString",
+                  "unit": "valueUnit"
+                },
+                "object": {
+                  "type": "Observation",
+                  "additional_data": {
+                    "id": "SingleUnitWithTitleObservation"
+                  }
+                }
+              },
+              "units": [
+                "hrs per day"
+              ]
+            }
+          },
+          "summary": {
+            "type": "RecentRecords",
+            "storage": {
+              "model": "Observation",
+              "find_existing": [
+                [
+                  "id=%@",
+                  "SingleUnitWithTitleObservation"
+                ]
+              ]
+            },
+            "item_templates": [
+              {
+                "template": "{{obj|displayValue:\"valueString\"}} {{obj|displayValue:\"valueUnit\"}}"
+              }
+            ]
+          }
+        },
+        {
+          "id": "card-numberinput-multi-unit",
+          "title": "Test multiple unit numberinput",
+          "buttons": [
+            {
+              "title": "Add",
+              "on_select": [
+                {
+                  "event_data": "ShowNumberInputWidget",
+                  "event_name": "DisplayRightPanel"
+                }
+              ]
+            }
+          ],
+          "events": {
+            "edit": {
+              "event_name": "DisplayRightPanel",
+              "event_data": "ShowNumberInputWidget"
+            }
+          },
+          "widgets": {
+            "ShowNumberInputWidget": {
+              "type": "NumberInputWidget",
+              "prefix": "Waist Size:",
+              "max_integerdigits_count": 2,
+              "max_fractionaldigits_count": 3,
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "close",
+                    "save": "db"
+                  }
+                ]
+              },
+              "storage": {
+                "keys": {
+                  "number": "valueString",
+                  "unit": "valueUnit"
+                },
+                "object": {
+                  "type": "Observation",
+                  "additional_data": {
+                    "id": "MultipleUnitObservation"
+                  }
+                }
+              },
+              "units": [
+                "cm",
+                "in"
+              ]
+            }
+          },
+          "summary": {
+            "type": "RecentRecords",
+            "storage": {
+              "model": "Observation",
+              "find_existing": [
+                [
+                  "id=%@",
+                  "MultipleUnitObservation"
+                ]
+              ]
+            },
+            "item_templates": [
+              {
+                "template": "{{obj|displayValue:\"valueString\"}} {{obj|displayValue:\"valueUnit\"}}"
+              }
+            ]
+          }
+        },
+        {
+          "id": "card-numberinput-multi-unit-title",
+          "title": "Test multiple unit numberinput with title",
+          "buttons": [
+            {
+              "title": "Add",
+              "on_select": [
+                {
+                  "event_data": "ShowNumberInputWidget",
+                  "event_name": "DisplayRightPanel"
+                }
+              ]
+            }
+          ],
+          "events": {
+            "edit": {
+              "event_name": "DisplayRightPanel",
+              "event_data": "ShowNumberInputWidget"
+            }
+          },
+          "widgets": {
+            "ShowNumberInputWidget": {
+              "title": "This is a really long long long long long long long long long title",
+              "type": "NumberInputWidget",
+              "prefix": "",
+              "max_integerdigits_count": 2,
+              "max_fractionaldigits_count": 3,
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "close",
+                    "save": "db"
+                  }
+                ]
+              },
+              "storage": {
+                "keys": {
+                  "number": "valueString",
+                  "unit": "valueUnit"
+                },
+                "object": {
+                  "type": "Observation",
+                  "additional_data": {
+                    "id": "MultipleUnitWithTitleObservation"
+                  }
+                }
+              },
+              "units": [
+                "cm",
+                "in"
+              ]
+            }
+          },
+          "summary": {
+            "type": "RecentRecords",
+            "storage": {
+              "model": "Observation",
+              "find_existing": [
+                [
+                  "id=%@",
+                  "MultipleUnitWithTitleObservation"
+                ]
+              ]
+            },
+            "item_templates": [
+              {
+                "template": "{{obj|displayValue:\"valueString\"}} {{obj|displayValue:\"valueUnit\"}}"
+              }
+            ]
+          }
+        },
+        {
+          "id": "card-numberinput-without-leading-zeros",
+          "title": "Test single unit numberinput without leading zeros",
+          "buttons": [
+            {
+              "title": "Add",
+              "on_select": [
+                {
+                  "event_data": "ShowNumberInputWidget",
+                  "event_name": "DisplayRightPanel"
+                }
+              ]
+            }
+          ],
+          "events": {
+            "edit": {
+              "event_name": "DisplayRightPanel",
+              "event_data": "ShowNumberInputWidget"
+            }
+          },
+          "widgets": {
+            "ShowNumberInputWidget": {
+              "title": "This is a really long long long long long long long long long title",
+              "type": "NumberInputWidget",
+              "prefix": "",
+              "max_integerdigits_count": 2,
+              "decimal_allowed": false,
+              "leading_zeros_allowed":false,
+              "max_value":24,
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "close",
+                    "save": "db"
+                  }
+                ]
+              },
+              "storage": {
+                "keys": {
+                  "number": "valueString",
+                  "unit": "valueUnit"
+                },
+                "object": {
+                  "type": "Observation",
+                  "additional_data": {
+                    "id": "SingleUnitWithoutLeadingZeros"
+                  }
+                }
+              },
+              "units": [
+                "hrs per day"
+              ]
+            }
+          },
+          "summary": {
+            "type": "RecentRecords",
+            "storage": {
+              "model": "Observation",
+              "find_existing": [
+                [
+                  "id=%@",
+                  "SingleUnitWithoutLeadingZeros"
+                ]
+              ]
+            },
+            "item_templates": [
+              {
+                "template": "{{obj|displayValue:\"valueString\"}} {{obj|displayValue:\"valueUnit\"}}"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "card-multiselectlist",
+      "type": "Card",
+      "name": "Multi Select List",
+      "acronym": "MSL",
+      "questions": [
+        {
+          "id": "card-multiselectlist",
+          "title": "Test multiselectlist",
+          "buttons": [
+            {
+              "title": "Add",
+              "on_select": [
+                {
+                  "event_data": "ShowMultiSelectList",
+                  "event_name": "DisplayRightPanel"
+                }
+              ]
+            }
+          ],
+          "widgets": {
+            "ShowMultiSelectList": {
+              "type": "MultiSelectWidget",
+              "items": [
+                {
+                  "type": "MultiSelect",
+                  "title": "Option 1",
+                  "value": "Option 1"
+                },
+                {
+                  "type": "MultiSelect",
+                  "title": "Option 2",
+                  "value": "Option 2"
+                },
+                {
+                  "type": "MultiSelect",
+                  "title": "Option 3",
+                  "value": "Option 3"
+                },
+                {
+                  "type": "MultiSelect",
+                  "title": "Option 4",
+                  "value": "Option 4"
+                },
+                {
+                  "type": "MultiSelect",
+                  "title": "Option 5",
+                  "value": "Option 5"
+                },
+                {
+                  "type": "MultiSelect",
+                  "title": "Option 6",
+                  "value": "Option 6"
+                }
+              ],
+              "title": "Test",
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "close",
+                    "save": "db"
+                  }
+                ]
+              },
+              "storage": {
+                "keys": {
+                  "selectedValues": "valueArray"
+                },
+                "object": {
+                  "type": "Observation",
+                  "find_existing": []
+                }
+              }
+            }
+          }
+        },
+        {
+          "id": "card-multiselectlist-objects",
+          "title": "Test multiselectlist with objects",
+          "buttons": [
+            {
+              "title": "Add",
+              "on_select": [
+                {
+                  "event_data": "ShowMultiSelectList",
+                  "event_name": "DisplayRightPanel"
+                }
+              ]
+            }
+          ],
+          "widgets": {
+            "ShowMultiSelectList": {
+              "type": "MultiSelectWidget",
+              "items": [
+                {
+                  "type": "MultiSelect",
+                  "title": "Option 1",
+                  "value": {
+                    "type": "Observation",
+                    "id": "observation-1-uuid"
+                  }
+                },
+                {
+                  "type": "MultiSelect",
+                  "title": "Option 2",
+                  "value": {
+                    "type": "Observation",
+                    "id": "observation-2-uuid"
+                  }
+                },
+                {
+                  "type": "MultiSelect",
+                  "title": "Option 3",
+                  "value": {
+                    "type": "Observation",
+                    "id": "observation-3-uuid"
+                  }
+                },
+                {
+                  "type": "MultiSelect",
+                  "title": "Option 4",
+                  "value": {
+                    "type": "Observation",
+                    "id": "observation-4-uuid"
+                  }
+                },
+                {
+                  "type": "MultiSelect",
+                  "title": "Option 5",
+                  "value": {
+                    "type": "Observation",
+                    "id": "observation-5-uuid"
+                  }
+                },
+                {
+                  "type": "MultiSelect",
+                  "title": "Option 6",
+                  "value": {
+                    "type": "Observation",
+                    "id": "observation-6-uuid"
+                  }
+                }
+              ],
+              "title": "Test",
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "close",
+                    "save": "db"
+                  }
+                ]
+              },
+              "storage": {
+                "keys": {
+                  "selectedValues": "components"
+                },
+                "object": {
+                  "type": "Observation",
+                  "find_existing": [
+                    [
+                      "components.@count>0"
+                    ]
+                  ]
+                }
+              }
+            }
+          }
+        },
+        {
+          "id": "card-multiselect-eitheror-nonmandatory",
+          "title": "Test multiselectlist Either Or Non Mandatory",
+          "buttons": [
+            {
+              "title": "Add",
+              "on_select": [
+                {
+                  "event_data": "ShowMultiSelectListEitherOrNonMandatory",
+                  "event_name": "DisplayRightPanel"
+                }
+              ]
+            }
+          ],
+          "widgets": {
+            "ShowMultiSelectListEitherOrNonMandatory": {
+              "either_or_predicate": [
+                [
+                  "self = %@",
+                  "No Option"
+                ]
+              ],
+              "type": "MultiSelectWidget",
+              "items": [
+                {
+                  "type": "SingleSelect",
+                  "title": "No Option",
+                  "value": "No Option"
+                },
+                {
+                  "title": "No Option",
+                  "type": "Header"
+                },
+                {
+                  "clear_button_title": "Clear",
+                  "mapped_to": "self",
+                  "filter_predicate": [
+                    [
+                      "self == %@",
+                      "No Option"
+                    ]
+                  ],
+                  "on_select": {
+                    "event_name": "clear_values",
+                    "event_data": {}
+                  },
+                  "type": "HeaderCount",
+                  "bottom_padding": 20
+                },
+                {
+                  "type": "MultiSelect",
+                  "title": "Option 1",
+                  "value": "Option 1"
+                },
+                {
+                  "type": "MultiSelect",
+                  "title": "Option 2",
+                  "value": "Option 2"
+                },
+                {
+                  "type": "MultiSelect",
+                  "title": "Option 3",
+                  "value": "Option 3"
+                },
+                {
+                  "type": "MultiSelect",
+                  "title": "Option 4",
+                  "value": "Option 4"
+                },
+                {
+                  "type": "MultiSelect",
+                  "title": "Option 5",
+                  "value": "Option 5"
+                },
+                {
+                  "type": "MultiSelect",
+                  "title": "Option 6",
+                  "value": "Option 6"
+                }
+              ],
+              "title": "Test",
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "close",
+                    "save": "db"
+                  }
+                ]
+              },
+              "storage": {
+                "keys": {
+                  "selectedValues": "valueArray"
+                },
+                "object": {
+                  "type": "Observation",
+                  "additional_data": {
+                    "id": "card-multiselect-eitheror-nonmandatory",
+                    "status": "active",
+                    "valueArray": [
+                      "No Option"
+                    ]
+                  },
+                  "find_existing": [
+                    [
+                      "id=%@",
+                      "card-multiselect-eitheror-nonmandatory"
+                    ]
+                  ]
+                }
+              }
+            }
+          },
+          "summary": {
+            "type": "RecentRecords",
+            "storage": {
+              "model": "Observation",
+              "find_existing": [
+                [
+                  "id=%@",
+                  "card-multiselect-eitheror-nonmandatory"
+                ]
+              ]
+            },
+            "item_templates": [
+              {
+                "template": "{{obj|displayValue:\"id\"}}"
+              }
+            ]
+          }
+        },
+        {
+          "id": "card-multiselect-eitheror-mandatory",
+          "title": "Test multiselectlist Either Or Mandatory",
+          "buttons": [
+            {
+              "title": "Add",
+              "on_select": [
+                {
+                  "event_data": "ShowMultiSelectList",
+                  "event_name": "DisplayRightPanel"
+                }
+              ]
+            }
+          ],
+          "widgets": {
+            "ShowMultiSelectList": {
+              "isMandatory": true,
+              "either_or_predicate": [
+                [
+                  "self = %@",
+                  "No Option"
+                ]
+              ],
+              "default_value": "No Option",
+              "type": "MultiSelectWidget",
+              "items": [
+                {
+                  "type": "Mandatory",
+                  "title":"You have to choose at least one item.",
+                  "top_separatorview_ishidden": false,
+                  "bottom_padding": 10
+                },
+                {
+                  "type": "SingleSelect",
+                  "title": "No Option",
+                  "value": "No Option"
+                },
+                {
+                  "title": "No Option",
+                  "type": "Header"
+                },
+                {
+                  "clear_button_title": "Clear",
+                  "mapped_to": "self",
+                  "filter_predicate": [
+                    [
+                      "self == %@",
+                      "No Option"
+                    ]
+                  ],
+                  "on_select": {
+                    "event_name": "clear_values",
+                    "event_data": {}
+                  },
+                  "type": "HeaderCount",
+                  "bottom_padding": 20
+                },
+                {
+                  "type": "MultiSelect",
+                  "title": "Option 1",
+                  "value": "Option 1"
+                },
+                {
+                  "type": "MultiSelect",
+                  "title": "Option 2",
+                  "value": "Option 2"
+                },
+                {
+                  "type": "MultiSelect",
+                  "title": "Option 3",
+                  "value": "Option 3"
+                },
+                {
+                  "type": "MultiSelect",
+                  "title": "Option 4",
+                  "value": "Option 4"
+                },
+                {
+                  "type": "MultiSelect",
+                  "title": "Option 5",
+                  "value": "Option 5"
+                },
+                {
+                  "type": "MultiSelect",
+                  "title": "Option 6",
+                  "value": "Option 6"
+                }
+              ],
+              "title": "Test",
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "close",
+                    "save": "db"
+                  }
+                ]
+              },
+              "storage": {
+                "keys": {
+                  "selectedValues": "valueArray"
+                },
+                "object": {
+                  "type": "Observation",
+                  "additional_data": {
+                    "id": "card-multiselect-eitheror-mandatory",
+                    "status": "active",
+                    "valueArray": [
+                      "No Option"
+                    ]
+                  },
+                  "find_existing": [
+                    [
+                      "id=%@",
+                      "card-multiselect-eitheror-mandatory"
+                    ]
+                  ]
+                }
+              }
+            }
+          },
+          "summary": {
+            "type": "RecentRecords",
+            "storage": {
+              "model": "Observation",
+              "find_existing": [
+                [
+                  "id=%@",
+                  "card-multiselect-eitheror-mandatory"
+                ]
+              ]
+            },
+            "item_templates": [
+              {
+                "template": "{{obj|displayValue:\"id\"}}"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "card-textbox",
+      "type": "Card",
+      "name": "Text Box",
+      "acronym": "TXT",
+      "questions": [
+        {
+          "id": "card-textbox",
+          "title": "Test text box widget",
+          "buttons": [
+            {
+              "title": "Add",
+              "on_select": [
+                {
+                  "event_data": "ShowTextBoxWidget",
+                  "event_name": "DisplayRightPanel"
+                }
+              ]
+            }
+          ],
+          "events": {
+            "edit": {
+              "event_name": "DisplayRightPanel",
+              "event_data": "ShowTextBoxWidget"
+            }
+          },
+          "widgets": {
+            "ShowTextBoxWidget": {
+              "type": "TextBoxWidget",
+              "title": "Title",
+              "prefix": "No. of Hours:",
+              "character_limit": 20,
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "close",
+                    "save": "db"
+                  }
+                ]
+              },
+              "storage": {
+                "keys": {
+                  "text": "valueString"
+                },
+                "object": {
+                  "type": "Observation",
+                  "additional_data": {
+                    "id": "TextBoxObservation"
+                  }
+                }
+              }
+            }
+          },
+          "summary": {
+            "type": "RecentRecords",
+            "storage": {
+              "model": "Observation",
+              "find_existing": [
+                [
+                  "id=%@",
+                  "TextBoxObservation"
+                ]
+              ]
+            },
+            "item_templates": [
+              {
+                "template": "{{obj|displayValue:\"valueString\"}}"
+              }
+            ]
+          }
+        },
+        {
+          "id": "placeholder",
+          "title": "Placeholder Question"
+        }
+      ]
+    },
+    {
+      "id": "card-singleselectnested",
+      "type": "Card",
+      "name": "Single Select Nested",
+      "acronym": "SSN",
+      "questions": [
+        {
+          "id": "card-singleselectnested",
+          "title": "Test Single Select Nested",
+          "buttons": [
+            {
+              "title": "Add",
+              "on_select": [
+                {
+                  "event_data": "ShowSingleSelectNestedList",
+                  "event_name": "DisplayRightPanel"
+                }
+              ]
+            }
+          ],
+          "widgets": {
+            "ShowNumberInputWidget": {
+              "title": "Test",
+              "type": "NumberInputWidget",
+              "prefix": "",
+              "max_integerdigits_count": 2,
+              "decimal_allowed": false,
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "pop",
+                    "save": "parent"
+                  }
+                ]
+              },
+              "storage": {
+                "keys": {
+                  "number": "valueString",
+                  "unit": "valueUnit"
+                }
+              },
+              "units": [
+                "hrs per day"
+              ]
+            },
+            "ShowMultiUnitNumberInputWidget": {
+              "type": "NumberInputWidget",
+              "prefix": "Waist Size:",
+              "max_integerdigits_count": 2,
+              "max_fractionaldigits_count": 3,
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "pop",
+                    "save": "parent"
+                  }
+                ]
+              },
+              "storage": {
+                "keys": {
+                  "number": "valueString",
+                  "unit": "valueUnit"
+                }
+              },
+              "units": [
+                "cm",
+                "in"
+              ]
+            },
+            "ShowMultiSelectList": {
+              "type": "MultiSelectWidget",
+              "items": [
+                {
+                  "type": "MultiSelect",
+                  "title": "Option 1",
+                  "value": "Option 1"
+                },
+                {
+                  "type": "MultiSelect",
+                  "title": "Option 2",
+                  "value": "Option 2"
+                },
+                {
+                  "type": "MultiSelect",
+                  "title": "Option 3",
+                  "value": "Option 3"
+                },
+                {
+                  "type": "MultiSelect",
+                  "title": "Option 4",
+                  "value": "Option 4"
+                },
+                {
+                  "type": "MultiSelect",
+                  "title": "Option 5",
+                  "value": "Option 5"
+                },
+                {
+                  "type": "MultiSelect",
+                  "title": "Option 6",
+                  "value": "Option 6"
+                }
+              ],
+              "title": "Test",
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "pop",
+                    "save": "parent"
+                  }
+                ]
+              },
+              "storage": {
+                "keys": {
+                  "selectedValues": "valueArray"
+                }
+              }
+            },
+            "AddValues": {
+              "title": "Add Values",
+              "items": [
+                {
+                  "mapped_to": "valueString",
+                  "title": "value",
+                  "on_select": {
+                    "event_name": "navigate",
+                    "event_data": "ShowNumberInputWidget"
+                  },
+                  "type": "NestedLabel"
+                },
+                {
+                  "mapped_to": "valueArray",
+                  "title": "value 1",
+                  "on_select": {
+                    "event_name": "navigate",
+                    "event_data": "ShowMultiSelectList"
+                  },
+                  "type": "NestedLabel"
+                }
+              ],
+              "type": "NestedLabelWidget",
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "pop",
+                    "save": "parent"
+                  }
+                ]
+              }
+            },
+            "SetOnset": {
+              "storage": {
+                "keys": {
+                  "onsetDate": "valueOnset"
+                }
+              },
+              "title": "Test",
+              "type": "OnsetWidget",
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "pop",
+                    "save": "parent"
+                  }
+                ]
+              }
+            },
+            "ShowSingleSelectNestedList": {
+              "type": "SingleSelectNestedWidget",
+              "storage": {
+                "object": {
+                  "type": "Observation",
+                  "find_existing": [
+                    [
+                      "id IN %@",
+                      [
+                        "4e492deb-a334-4396-ad12-e9c1812b0d07",
+                        "4e492deb-a334-4396-ad12-e9c1812b0d08",
+                        "4e492deb-a334-4396-ad12-e9c1812b0d09",
+                        "4e492deb-a334-4396-ad12-e9c1812b0d10"
+                      ]
+                    ],
+                    [
+                      "status <> %@",
+                      "entered-in-error"
+                    ]
+                  ]
+                },
+                "keys": {
+                  "object": "self"
+                }
+              },
+              "items": [
+                {
+                  "clear_button_title": "Clear",
+                  "mapped_to": "self",
+                  "on_select": {
+                    "event_name": "clear_values",
+                    "event_data": {}
+                  },
+                  "type": "HeaderCount",
+                  "bottom_padding": 20
+                },
+                {
+                  "mapped_to": "valueString",
+                  "display_keys": [
+                    "valueString",
+                    "valueArray"
+                  ],
+                  "info_text":"<html><span style=\"font-family:'-apple-system','HelveticaNeue';color:rgb(109, 109, 109); font-size:18;\">Sample Text</span></html>",
+                  "title": "Option 1",
+                  "type": "SingleSelectNested",
+                  "value": {
+                    "type": "Observation",
+                    "id": "4e492deb-a334-4396-ad12-e9c1812b0d07",
+                    "code": "Option 1"
+                  },
+                  "on_select": {
+                    "event_name": "navigate",
+                    "event_data": "AddValues"
+                  }
+                },
+                {
+                  "mapped_to": "valueArray",
+                  "display_expression": "{{obj|displayValue:\"valueArray.@count\"}} value(s)",
+                  "title": "Option 2",
+                  "type": "SingleSelectNested",
+                  "value": {
+                    "type": "Observation",
+                    "id": "4e492deb-a334-4396-ad12-e9c1812b0d08",
+                    "code": "Option 2"
+                  },
+                  "on_select": {
+                    "event_name": "navigate",
+                    "event_data": "ShowMultiSelectList"
+                  }
+                },
+                {
+                  "mapped_to": "self",
+                  "display_expression": "{{obj|displayValue:\"valueString\"}}{{obj|displayValue:\"valueUnit\"}}",
+                  "title": "Option 3",
+                  "type": "SingleSelectNested",
+                  "value": {
+                    "type": "Observation",
+                    "id": "4e492deb-a334-4396-ad12-e9c1812b0d09",
+                    "code": "Option 3"
+                  },
+                  "on_select": {
+                    "event_name": "navigate",
+                    "event_data": "ShowMultiUnitNumberInputWidget"
+                  }
+                },
+                {
+                  "mapped_to": "self",
+                  "display_expression": "{{obj|displayValue:\"valueOnset.shortDescription\"}}",
+                  "title": "Option 4",
+                  "type": "SingleSelectNested",
+                  "value": {
+                    "type": "Observation",
+                    "id": "4e492deb-a334-4396-ad12-e9c1812b0d10",
+                    "code": "Option 4"
+                  },
+                  "on_select": {
+                    "event_name": "navigate",
+                    "event_data": "SetOnset"
+                  }
+                }
+              ],
+              "title": "Test",
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "close",
+                    "save": "db"
+                  }
+                ]
+              }
+            }
+          },
+          "summary": {
+            "type": "RecentRecords",
+            "storage": {
+              "model": "Observation",
+              "find_existing": [
+                [
+                  "id IN %@",
+                  [
+                    "4e492deb-a334-4396-ad12-e9c1812b0d07",
+                    "4e492deb-a334-4396-ad12-e9c1812b0d08",
+                    "4e492deb-a334-4396-ad12-e9c1812b0d09",
+                    "4e492deb-a334-4396-ad12-e9c1812b0d10"
+                  ]
+                ],
+                [
+                  "status!=%@",
+                  "entered-in-error"
+                ]
+              ]
+            },
+            "item_templates": [
+              {
+                "template": "{{obj|displayValue:\"code\"}}"
+              }
+            ]
+          }
+        },
+        {
+          "id": "card-singleselectnested-either-or-without-navigation",
+          "title": "Test Single Select Nested Either Or Without Navigation",
+          "buttons": [
+            {
+              "title": "Add",
+              "on_select": [
+                {
+                  "event_data": "ShowSingleSelectNestedList",
+                  "event_name": "DisplayRightPanel"
+                }
+              ]
+            }
+          ],
+          "widgets": {
+            "ShowMultiUnitNumberInputWidget": {
+              "type": "NumberInputWidget",
+              "prefix": "Waist Size:",
+              "max_integerdigits_count": 2,
+              "max_fractionaldigits_count": 3,
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "pop",
+                    "save": "parent"
+                  }
+                ]
+              },
+              "storage": {
+                "keys": {
+                  "number": "valueString",
+                  "unit": "valueUnit"
+                }
+              },
+              "units": [
+                "cm",
+                "in"
+              ]
+            },
+            "ShowSingleSelectNestedList": {
+              "type": "SingleSelectNestedWidget",
+              "storage": {
+                "object": {
+                  "type": "Observation",
+                  "find_existing": [
+                    [
+                      "id IN %@",
+                      [
+                        "4e492deb-a332-4391-ad12-e9c1812b0d06",
+                        "4e492deb-a332-4391-ad12-e9c1812b0d07",
+                        "4e492deb-a332-4391-ad12-e9c1812b0d08",
+                        "4e492deb-a332-4391-ad12-e9c1812b0d09",
+                        "4e492deb-a332-4391-ad12-e9c1812b0d10"
+                      ]
+                    ],
+                    [
+                      "status <> %@",
+                      "entered-in-error"
+                    ]
+                  ]
+                },
+                "keys": {
+                  "object": "self"
+                }
+              },
+              "items": [
+                {
+                  "mapped_to": "self",
+                  "title": "No Option",
+                  "type": "SingleSelect",
+                  "value": {
+                    "type": "Observation",
+                    "id": "4e492deb-a332-4391-ad12-e9c1812b0d06",
+                    "code": "No Option",
+                    "status": "active"
+                  }
+                },
+                {
+                  "title": "No Option",
+                  "type": "Header"
+                },
+                {
+                  "clear_button_title": "Clear",
+                  "mapped_to": "self",
+                  "filter_predicate": [
+                    [
+                      "id = %@",
+                      "4e492deb-a332-4391-ad12-e9c1812b0d06"
+                    ],
+                    [
+                      "status=%@",
+                      "active"
+                    ]
+                  ],
+                  "on_select": {
+                    "event_name": "clear_values",
+                    "event_data": {}
+                  },
+                  "type": "HeaderCount",
+                  "bottom_padding": 20
+                },
+                {
+                  "mapped_to": "self",
+                  "display_expression": "{{obj|displayValue:\"valueString\"}}{{obj|displayValue:\"valueUnit\"}}",
+                  "title": "Option 1",
+                  "type": "SingleSelectNested",
+                  "value": {
+                    "type": "Observation",
+                    "id": "4e492deb-a332-4391-ad12-e9c1812b0d07",
+                    "code": "Option 1",
+                    "status": "active"
+                  },
+                  "on_select": {
+                    "event_name": "navigate",
+                    "event_data": "ShowMultiUnitNumberInputWidget"
+                  }
+                },
+                {
+                  "mapped_to": "self",
+                  "display_expression": "{{obj|displayValue:\"valueString\"}}{{obj|displayValue:\"valueUnit\"}}",
+                  "title": "Option 2",
+                  "type": "SingleSelectNested",
+                  "value": {
+                    "type": "Observation",
+                    "id": "4e492deb-a332-4391-ad12-e9c1812b0d08",
+                    "code": "Option 2",
+                    "status": "active"
+                  },
+                  "on_select": {
+                    "event_name": "navigate",
+                    "event_data": "ShowMultiUnitNumberInputWidget"
+                  }
+                },
+                {
+                  "mapped_to": "self",
+                  "display_expression": "{{obj|displayValue:\"valueString\"}}{{obj|displayValue:\"valueUnit\"}}",
+                  "title": "Option 3",
+                  "type": "SingleSelectNested",
+                  "value": {
+                    "type": "Observation",
+                    "id": "4e492deb-a332-4391-ad12-e9c1812b0d09",
+                    "code": "Option 3",
+                    "status": "active"
+                  },
+                  "on_select": {
+                    "event_name": "navigate",
+                    "event_data": "ShowMultiUnitNumberInputWidget"
+                  }
+                },
+                {
+                  "mapped_to": "self",
+                  "display_expression": "{{obj|displayValue:\"valueString\"}}{{obj|displayValue:\"valueUnit\"}}",
+                  "title": "Option 4",
+                  "type": "SingleSelectNested",
+                  "value": {
+                    "type": "Observation",
+                    "id": "4e492deb-a332-4391-ad12-e9c1812b0d10",
+                    "code": "Option 4",
+                    "status": "active"
+                  },
+                  "on_select": {
+                    "event_name": "navigate",
+                    "event_data": "ShowMultiUnitNumberInputWidget"
+                  }
+                }
+              ],
+              "title": "Test",
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "close",
+                    "save": "db"
+                  }
+                ]
+              }
+            }
+          },
+          "summary": {
+            "type": "RecentRecords",
+            "storage": {
+              "model": "Observation",
+              "find_existing": [
+                [
+                  "id IN %@",
+                  [
+                    "4e492deb-a332-4391-ad12-e9c1812b0d06",
+                    "4e492deb-a332-4391-ad12-e9c1812b0d07",
+                    "4e492deb-a332-4391-ad12-e9c1812b0d08",
+                    "4e492deb-a332-4391-ad12-e9c1812b0d09",
+                    "4e492deb-a332-4391-ad12-e9c1812b0d10"
+                  ]
+                ],
+                [
+                  "status!=%@",
+                  "entered-in-error"
+                ]
+              ]
+            },
+            "item_templates": [
+              {
+                "template": "{{obj|displayValue:\"code\"}}"
+              }
+            ]
+          }
+        },
+        {
+          "id": "card-singleselectnested-either-or-with-navigation",
+          "title": "Test Single Select Nested Either With Navigation",
+          "buttons": [
+            {
+              "title": "Add",
+              "on_select": [
+                {
+                  "event_data": "ShowSingleSelectNestedList",
+                  "event_name": "DisplayRightPanel"
+                }
+              ]
+            }
+          ],
+          "widgets": {
+            "ShowNumberInputWidget": {
+              "title": "Test",
+              "type": "NumberInputWidget",
+              "prefix": "",
+              "max_integerdigits_count": 2,
+              "decimal_allowed": false,
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "pop",
+                    "save": "parent"
+                  }
+                ]
+              },
+              "storage": {
+                "keys": {
+                  "number": "valueString",
+                  "unit": "valueUnit"
+                }
+              },
+              "units": [
+                "hrs per day"
+              ]
+            },
+            "ShowMultiUnitNumberInputWidget": {
+              "type": "NumberInputWidget",
+              "prefix": "Waist Size:",
+              "max_integerdigits_count": 2,
+              "max_fractionaldigits_count": 3,
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "pop",
+                    "save": "parent"
+                  }
+                ]
+              },
+              "storage": {
+                "keys": {
+                  "number": "valueString",
+                  "unit": "valueUnit"
+                }
+              },
+              "units": [
+                "cm",
+                "in"
+              ]
+            },
+            "ShowSingleSelectNestedList": {
+              "type": "SingleSelectNestedWidget",
+              "storage": {
+                "object": {
+                  "type": "Observation",
+                  "find_existing": [
+                    [
+                      "id IN %@",
+                      [
+                        "4e492deb-a334-4395-ad12-e9c1812b0d06",
+                        "4e492deb-a334-4395-ad12-e9c1812b0d07",
+                        "4e492deb-a334-4395-ad12-e9c1812b0d08",
+                        "4e492deb-a334-4395-ad12-e9c1812b0d09",
+                        "4e492deb-a334-4395-ad12-e9c1812b0d10"
+                      ]
+                    ],
+                    [
+                      "status <> %@",
+                      "entered-in-error"
+                    ]
+                  ]
+                },
+                "keys": {
+                  "object": "self"
+                }
+              },
+              "items": [
+                {
+                  "mapped_to": "self",
+                  "display_expression": "{{obj|displayValue:\"valueString\"}}{{obj|displayValue:\"valueUnit\"}}",
+                  "title": "No Option",
+                  "type": "SingleSelectNested",
+                  "value": {
+                    "type": "Observation",
+                    "id": "4e492deb-a334-4395-ad12-e9c1812b0d06",
+                    "code": "No Option",
+                    "status": "active"
+                  },
+                  "on_select": {
+                    "event_name": "navigate",
+                    "event_data": "ShowMultiUnitNumberInputWidget"
+                  }
+                },
+                {
+                  "title": "No Option",
+                  "type": "Header"
+                },
+                {
+                  "clear_button_title": "Clear",
+                  "mapped_to": "self",
+                  "filter_predicate": [
+                    [
+                      "id = %@",
+                      "4e492deb-a334-4395-ad12-e9c1812b0d06"
+                    ],
+                    [
+                      "status=%@",
+                      "active"
+                    ]
+                  ],
+                  "on_select": {
+                    "event_name": "clear_values",
+                    "event_data": {}
+                  },
+                  "type": "HeaderCount",
+                  "bottom_padding": 20
+                },
+                {
+                  "mapped_to": "self",
+                  "display_expression": "{{obj|displayValue:\"valueString\"}}{{obj|displayValue:\"valueUnit\"}}",
+                  "title": "Option 1",
+                  "type": "SingleSelectNested",
+                  "value": {
+                    "type": "Observation",
+                    "id": "4e492deb-a334-4395-ad12-e9c1812b0d07",
+                    "code": "Option 1",
+                    "status": "active"
+                  },
+                  "on_select": {
+                    "event_name": "navigate",
+                    "event_data": "ShowMultiUnitNumberInputWidget"
+                  }
+                },
+                {
+                  "mapped_to": "self",
+                  "display_expression": "{{obj|displayValue:\"valueString\"}}{{obj|displayValue:\"valueUnit\"}}",
+                  "title": "Option 2",
+                  "type": "SingleSelectNested",
+                  "value": {
+                    "type": "Observation",
+                    "id": "4e492deb-a334-4395-ad12-e9c1812b0d08",
+                    "code": "Option 2",
+                    "status": "active"
+                  },
+                  "on_select": {
+                    "event_name": "navigate",
+                    "event_data": "ShowMultiUnitNumberInputWidget"
+                  }
+                },
+                {
+                  "mapped_to": "self",
+                  "display_expression": "{{obj|displayValue:\"valueString\"}}{{obj|displayValue:\"valueUnit\"}}",
+                  "title": "Option 3",
+                  "type": "SingleSelectNested",
+                  "value": {
+                    "type": "Observation",
+                    "id": "4e492deb-a334-4395-ad12-e9c1812b0d09",
+                    "code": "Option 3",
+                    "status": "active"
+                  },
+                  "on_select": {
+                    "event_name": "navigate",
+                    "event_data": "ShowMultiUnitNumberInputWidget"
+                  }
+                },
+                {
+                  "mapped_to": "self",
+                  "display_expression": "{{obj|displayValue:\"valueString\"}}{{obj|displayValue:\"valueUnit\"}}",
+                  "title": "Option 4",
+                  "type": "SingleSelectNested",
+                  "value": {
+                    "type": "Observation",
+                    "id": "4e492deb-a334-4395-ad12-e9c1812b0d10",
+                    "code": "Option 4",
+                    "status": "active"
+                  },
+                  "on_select": {
+                    "event_name": "navigate",
+                    "event_data": "ShowMultiUnitNumberInputWidget"
+                  }
+                }
+              ],
+              "title": "Test",
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "close",
+                    "save": "db"
+                  }
+                ]
+              }
+            }
+          },
+          "summary": {
+            "type": "RecentRecords",
+            "storage": {
+              "model": "Observation",
+              "find_existing": [
+                [
+                  "id IN %@",
+                  [
+                    "4e492deb-a334-4395-ad12-e9c1812b0d06",
+                    "4e492deb-a334-4395-ad12-e9c1812b0d07",
+                    "4e492deb-a334-4395-ad12-e9c1812b0d08",
+                    "4e492deb-a334-4395-ad12-e9c1812b0d09",
+                    "4e492deb-a334-4395-ad12-e9c1812b0d10"
+                  ]
+                ],
+                [
+                  "status!=%@",
+                  "entered-in-error"
+                ]
+              ]
+            },
+            "item_templates": [
+              {
+                "template": "{{obj|displayValue:\"code\"}}"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "card-multiselectnested",
+      "type": "Card",
+      "name": "Multi Select Nested",
+      "acronym": "MSN",
+      "questions": [
+        {
+          "id": "card-multiselectnested",
+          "title": "Test Multi Select Nested",
+          "buttons": [
+            {
+              "title": "Add",
+              "on_select": [
+                {
+                  "event_data": "ShowMultiSelectNestedList",
+                  "event_name": "DisplayRightPanel"
+                }
+              ]
+            }
+          ],
+          "widgets": {
+            "ShowMultiSelectNestedList": {
+              "type": "MultiSelectNestedWidget",
+              "storage": {
+                "object": {
+                  "type": "Observation",
+                  "find_existing": [
+                    [
+                      "code IN %@",
+                      [
+                        "Option 11",
+                        "Option 12",
+                        "Option 13",
+                        "Option 14"
+                      ]
+                    ],
+                    [
+                      "status <> %@",
+                      "entered-in-error"
+                    ]
+                  ]
+                }
+              },
+              "items": [
+                {
+                  "clear_button_title": "Clear",
+                  "mapped_to": "self",
+                  "on_select": {
+                    "event_name": "clear_values",
+                    "event_data": {}
+                  },
+                  "type": "HeaderCount",
+                  "bottom_padding": 20
+                },
+                {
+                  "title": "Option 11",
+                  "type": "MultiSelectNested",
+                  "info_text":"<html><span style=\"font-family:'-apple-system','HelveticaNeue';color:rgb(109, 109, 109); font-size:18;\">Sample Text</span></html>",
+                  "value": {
+                    "type": "Observation",
+                    "id": "8f14f460-a522-11e8-98d0-529269fb1459",
+                    "code": "Option 11",
+                    "status": "active"
+                  },
+                  "on_select": {
+                    "event_name": "navigate",
+                    "event_data": "AddParentObservation"
+                  },
+                  "mapped_to": "self",
+                  "display_keys": [
+                    "valueString",
+                    "components"
+                  ]
+                },
+                {
+                  "title": "Option 12",
+                  "type": "MultiSelectNested",
+                  "value": {
+                    "type": "Observation",
+                    "id": "3f35446c-51dd-4405-838b-27187c8b55d3",
+                    "code": "Option 12",
+                    "status": "active"
+                  },
+                  "on_select": {
+                    "event_name": "navigate",
+                    "event_data": "AddParentObservation"
+                  },
+                  "mapped_to": "self",
+                  "display_keys": [
+                    "valueString",
+                    "components"
+                  ]
+                },
+                {
+                  "title": "Option 13",
+                  "type": "MultiSelectNested",
+                  "value": {
+                    "type": "Observation",
+                    "id": "868b537e-3a38-4182-872a-6f527a9d1f74",
+                    "code": "Option 13",
+                    "status": "active"
+                  },
+                  "on_select": {
+                    "event_name": "navigate",
+                    "event_data": "AddParentObservation"
+                  },
+                  "mapped_to": "self",
+                  "display_keys": [
+                    "valueString",
+                    "components"
+                  ]
+                },
+                {
+                  "title": "Option 14",
+                  "type": "MultiSelectNested",
+                  "value": {
+                    "type": "Observation",
+                    "id": "376491b9-e47b-43fd-9280-4452a0f9b315",
+                    "code": "Option 14",
+                    "status": "active"
+                  },
+                  "on_select": {
+                    "event_name": "navigate",
+                    "event_data": "AddParentObservation"
+                  },
+                  "mapped_to": "self",
+                  "display_keys": [
+                    "valueString",
+                    "components"
+                  ]
+                }
+              ],
+              "title": "Test",
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "close",
+                    "save": "db"
+                  }
+                ]
+              }
+            },
+            "AddParentObservation": {
+              "type": "NestedLabelWidget",
+              "items": [
+                {
+                  "type": "NestedLabel",
+                  "title": "Components",
+                        "display_expression": "{% if obj|displayValue:\"components.@count\" != \"0\" %}{{obj|displayValue:\"components.@count\"}} values selected{% endif %}",
+                  "list_inner_keyPath": "code",
+                  "on_select": [
+                    {
+                      "event_condition": "obj.code = 'Option 11'",
+                      "event_data": "ShowInnerMultiSelectNestedList1",
+                      "event_name": "navigate"
+                    },
+                    {
+                      "event_condition": "obj.code = 'Option 12'",
+                      "event_data": "ShowInnerMultiSelectNestedList2",
+                      "event_name": "navigate"
+                    },
+                    {
+                      "event_condition": "obj.code = 'Option 13'",
+                      "event_data": "ShowInnerMultiSelectNestedList3",
+                      "event_name": "navigate"
+                    },
+                    {
+                      "event_condition": "obj.code = 'Option 14'",
+                      "event_data": "ShowInnerMultiSelectNestedList4",
+                      "event_name": "navigate"
+                    }
+                  ]
+                },
+                {
+                  "type": "NestedLabel",
+                  "title": "Value",
+                  "mapped_to": "valueString",
+                  "on_select": {
+                    "event_data": "ShowNumberInputWidget",
+                    "event_name": "navigate"
+                  }
+                }
+              ],
+              "title": "Observation Details",
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "pop",
+                    "save": "parent"
+                  }
+                ]
+              }
+            },
+            "AddChildObservation": {
+              "type": "NestedLabelWidget",
+              "items": [
+                {
+                  "type": "NestedLabel",
+                  "title": "Value",
+                  "mapped_to": "valueString",
+                  "on_select": {
+                    "event_data": "ShowNumberInputWidget",
+                    "event_name": "navigate"
+                  }
+                },
+                {
+                  "type": "NestedLabel",
+                  "title": "Date",
+                  "display_expression": "{{obj|displayValue:\"valueOnset\"}}",
+                  "on_select": {
+                    "event_data": "AddDate",
+                    "event_name": "navigate"
+                  }
+                }
+              ],
+              "title": "Observation Details",
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "pop",
+                    "save": "parent"
+                  }
+                ]
+              }
+            },
+            "ShowInnerMultiSelectNestedList1": {
+              "type": "MultiSelectNestedWidget",
+              "storage": {
+                "keys": {
+                  "objects": "components"
+                }
+              },
+              "items": [
+                {
+                  "title": "Option 11.1",
+                  "type": "MultiSelectNested",
+                  "value": {
+                    "type": "Observation",
+                    "id": "02335b80-a568-41d2-b651-6e5fc8961fbe",
+                    "code": "Option 11.1",
+                    "status": "active"
+                  },
+                  "on_select": {
+                    "event_name": "navigate",
+                    "event_data": "AddChildObservation"
+                  },
+                  "mapped_to": "self",
+                  "display_keys": [
+                    "valueOnsetDate",
+                    "valueString"
+                  ]
+                },
+                {
+                  "title": "Option 11.2",
+                  "type": "MultiSelectNested",
+                  "value": {
+                    "type": "Observation",
+                    "id": "05a33ed4-026b-46dd-b608-cc321f5f2f55",
+                    "code": "Option 11.2",
+                    "status": "active"
+                  },
+                  "on_select": {
+                    "event_name": "navigate",
+                    "event_data": "AddChildObservation"
+                  },
+                  "mapped_to": "self",
+                  "display_keys": [
+                    "valueOnsetDate",
+                    "valueString"
+                  ]
+                }
+              ],
+              "title": "Test",
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "pop",
+                    "save": "parent"
+                  }
+                ]
+              }
+            },
+            "ShowInnerMultiSelectNestedList2": {
+              "type": "MultiSelectNestedWidget",
+              "storage": {
+                "keys": {
+                  "objects": "components"
+                }
+              },
+              "items": [
+                {
+                  "title": "Option 12.1",
+                  "type": "MultiSelectNested",
+                  "value": {
+                    "type": "Observation",
+                    "id": "a173abb9-1625-4c56-a1d5-2a04e3cfc670",
+                    "code": "Option 12.1",
+                    "status": "active"
+                  },
+                  "on_select": {
+                    "event_name": "navigate",
+                    "event_data": "AddChildObservation"
+                  },
+                  "mapped_to": "self",
+                  "display_keys": [
+                    "valueOnsetDate",
+                    "valueString"
+                  ]
+                },
+                {
+                  "title": "Option 12.2",
+                  "type": "MultiSelectNested",
+                  "value": {
+                    "type": "Observation",
+                    "id": "d2c09787-02a4-4601-a885-4ed35fb7cef8",
+                    "code": "Option 12.2",
+                    "status": "active"
+                  },
+                  "on_select": {
+                    "event_name": "navigate",
+                    "event_data": "AddChildObservation"
+                  },
+                  "mapped_to": "self",
+                  "display_keys": [
+                    "valueOnsetDate",
+                    "valueString"
+                  ]
+                }
+              ],
+              "title": "Test",
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "pop",
+                    "save": "parent"
+                  }
+                ]
+              }
+            },
+            "ShowInnerMultiSelectNestedList3": {
+              "type": "MultiSelectNestedWidget",
+              "storage": {
+                "keys": {
+                  "objects": "components"
+                }
+              },
+              "items": [
+                {
+                  "title": "Option 13.1",
+                  "type": "MultiSelectNested",
+                  "value": {
+                    "type": "Observation",
+                    "id": "e4b7306f-0fbb-4cf0-bacb-14fbcac13021",
+                    "code": "Option 13.1",
+                    "status": "active"
+                  },
+                  "on_select": {
+                    "event_name": "navigate",
+                    "event_data": "AddChildObservation"
+                  },
+                  "mapped_to": "self",
+                  "display_keys": [
+                    "valueOnsetDate",
+                    "valueString"
+                  ]
+                },
+                {
+                  "title": "Option 13.2",
+                  "type": "MultiSelectNested",
+                  "value": {
+                    "type": "Observation",
+                    "id": "600a6a22-9bdc-41ab-9a83-07117d00a07c",
+                    "code": "Option 13.2",
+                    "status": "active"
+                  },
+                  "on_select": {
+                    "event_name": "navigate",
+                    "event_data": "AddChildObservation"
+                  },
+                  "mapped_to": "self",
+                  "display_keys": [
+                    "valueOnsetDate",
+                    "valueString"
+                  ]
+                }
+              ],
+              "title": "Test",
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "pop",
+                    "save": "parent"
+                  }
+                ]
+              }
+            },
+            "ShowInnerMultiSelectNestedList4": {
+              "type": "MultiSelectNestedWidget",
+              "storage": {
+                "keys": {
+                  "objects": "components"
+                }
+              },
+              "items": [
+                {
+                  "title": "Option 14.1",
+                  "type": "MultiSelectNested",
+                  "value": {
+                    "type": "Observation",
+                    "id": "e22c6ca7-0858-4b69-808a-27abd50617ce",
+                    "code": "Option 14.1",
+                    "status": "active"
+                  },
+                  "on_select": {
+                    "event_name": "navigate",
+                    "event_data": "AddChildObservation"
+                  },
+                  "mapped_to": "self",
+                  "display_keys": [
+                    "valueOnsetDate",
+                    "valueString"
+                  ]
+                },
+                {
+                  "title": "Option 14.2",
+                  "type": "MultiSelectNested",
+                  "value": {
+                    "type": "Observation",
+                    "id": "25e79792-81dc-465b-8d80-c94c7b5c052e",
+                    "code": "Option 14.2",
+                    "status": "active"
+                  },
+                  "on_select": {
+                    "event_name": "navigate",
+                    "event_data": "AddChildObservation"
+                  },
+                  "mapped_to": "self",
+                  "display_keys": [
+                    "valueOnsetDate",
+                    "valueString"
+                  ]
+                }
+              ],
+              "title": "Test",
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "pop",
+                    "save": "parent"
+                  }
+                ]
+              }
+            },
+            "ShowNumberInputWidget": {
+              "title": "This is a really long long long long long long long long long title",
+              "type": "NumberInputWidget",
+              "prefix": "",
+              "maxIntegerPartDigitsCount": 2,
+              "maxFractionalPartDigitsCount": 3,
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "pop",
+                    "save": "parent"
+                  }
+                ]
+              },
+              "storage": {
+                "keys": {
+                  "number": "valueString",
+                  "unit": "valueUnit"
+                },
+                "object": {
+                  "type": "Observation",
+                  "additional_data": {
+                    "id": "MultipleUnitWithTitleObservation"
+                  }
+                }
+              },
+              "units": [
+                "cm",
+                "in"
+              ]
+            },
+            "AddDate": {
+              "storage": {
+                "keys": {
+                  "onsetDate": "valueOnset"
+                }
+              },
+              "title": "Onset",
+              "type": "OnsetWidget",
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "pop",
+                    "save": "parent"
+                  }
+                ]
+              }
+            }
+          },
+          "summary": {
+            "type": "RecentRecords",
+            "storage": {
+              "model": "Observation",
+              "find_existing": [
+                [
+                  "code IN %@",
+                  [
+                    "Option 11",
+                    "Option 12",
+                    "Option 13",
+                    "Option 14"
+                  ]
+                ],
+                [
+                  "status!=%@",
+                  "entered-in-error"
+                ]
+              ]
+            },
+            "item_templates": [
+              {
+                "template": "{{obj|displayValue:\"code\"}}"
+              }
+            ]
+          }
+        },
+        {
+          "id": "card-multiselectnested-either-or",
+          "title": "Test Multi Select Nested either or",
+          "buttons": [
+            {
+              "title": "Add",
+              "on_select": [
+                {
+                  "event_data": "ShowMultiSelectNestedList",
+                  "event_name": "DisplayRightPanel"
+                }
+              ]
+            }
+          ],
+          "widgets": {
+            "ShowMultiSelectNestedList": {
+              "type": "MultiSelectNestedWidget",
+              "either_or_predicate": [
+                [
+                  "id = %@",
+                  "8q14f460-1622-11e8-98d0-529269fb1459"
+                ],
+                [
+                  "status=%@",
+                  "active"
+                ]
+              ],
+              "storage": {
+                "object": {
+                  "type": "Observation",
+                  "find_existing": [
+                    [
+                      "id IN %@",
+                      [
+                        "8f14f460-1622-11e8-98d0-529269fb1459",
+                        "3f35446c-1622-4405-838b-27187c8b55d3",
+                        "868b537e-1622-4182-872a-6f527a9d1f74",
+                        "376491b9-1622-43fd-9280-4452a0f9b315",
+                        "8q14f460-1622-11e8-98d0-529269fb1459"
+                      ]
+                    ],
+                    [
+                      "status <> %@",
+                      "entered-in-error"
+                    ]
+                  ]
+                }
+              },
+              "items": [
+                {
+                  "title": "No Option",
+                  "type": "SingleSelect",
+                  "value": {
+                    "type": "Observation",
+                    "id": "8q14f460-1622-11e8-98d0-529269fb1459",
+                    "code": "No Option",
+                    "status": "active"
+                  },
+                  "mapped_to": "self"
+                },
+                {
+                  "title": "No Option",
+                  "type": "Header"
+                },
+                {
+                  "clear_button_title": "Clear",
+                  "mapped_to": "self",
+                  "filter_predicate": [
+                    [
+                      "id = %@",
+                      "8q14f460-1622-11e8-98d0-529269fb1459"
+                    ],
+                    [
+                      "status=%@",
+                      "active"
+                    ]
+                  ],
+                  "on_select": {
+                    "event_name": "clear_values",
+                    "event_data": {}
+                  },
+                  "type": "HeaderCount",
+                  "bottom_padding": 20
+                },
+                {
+                  "title": "Option 1",
+                  "type": "MultiSelectNested",
+                  "value": {
+                    "type": "Observation",
+                    "id": "8f14f460-1622-11e8-98d0-529269fb1459",
+                    "code": "Option 1",
+                    "status": "active"
+                  },
+                  "on_select": {
+                    "event_name": "navigate",
+                    "event_data": "ShowNumberInputWidget"
+                  },
+                  "mapped_to": "self",
+                  "display_keys": [
+                    "valueString",
+                    "components"
+                  ]
+                },
+                {
+                  "title": "Option 2",
+                  "type": "MultiSelectNested",
+                  "value": {
+                    "type": "Observation",
+                    "id": "3f35446c-1622-4405-838b-27187c8b55d3",
+                    "code": "Option 2",
+                    "status": "active"
+                  },
+                  "on_select": {
+                    "event_name": "navigate",
+                    "event_data": "ShowNumberInputWidget"
+                  },
+                  "mapped_to": "self",
+                  "display_keys": [
+                    "valueString",
+                    "components"
+                  ]
+                },
+                {
+                  "title": "Option 3",
+                  "type": "MultiSelectNested",
+                  "value": {
+                    "type": "Observation",
+                    "id": "868b537e-1622-4182-872a-6f527a9d1f74",
+                    "code": "Option 3",
+                    "status": "active"
+                  },
+                  "on_select": {
+                    "event_name": "navigate",
+                    "event_data": "ShowNumberInputWidget"
+                  },
+                  "mapped_to": "self",
+                  "display_keys": [
+                    "valueString",
+                    "components"
+                  ]
+                },
+                {
+                  "title": "Option 4",
+                  "type": "MultiSelectNested",
+                  "value": {
+                    "type": "Observation",
+                    "id": "376491b9-1622-43fd-9280-4452a0f9b315",
+                    "code": "Option 4",
+                    "status": "active"
+                  },
+                  "on_select": {
+                    "event_name": "navigate",
+                    "event_data": "ShowNumberInputWidget"
+                  },
+                  "mapped_to": "self",
+                  "display_keys": [
+                    "valueString",
+                    "components"
+                  ]
+                }
+              ],
+              "title": "Test",
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "close",
+                    "save": "db"
+                  }
+                ]
+              }
+            },
+            "ShowNumberInputWidget": {
+              "title": "Title",
+              "type": "NumberInputWidget",
+              "prefix": "",
+              "maxIntegerPartDigitsCount": 2,
+              "maxFractionalPartDigitsCount": 3,
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "pop",
+                    "save": "parent"
+                  },
+                  {
+                    "event_name": "custom",
+                    "event_data": "UnSelectNoOption"
+                  }
+                ]
+              },
+              "storage": {
+                "keys": {
+                  "number": "valueString",
+                  "unit": "valueUnit"
+                },
+                "object": {
+                  "type": "Observation",
+                  "additional_data": {
+                    "id": "476491b9-1622-43fd-9280-4452a0f9b315"
+                  }
+                }
+              },
+              "units": [
+                "cm",
+                "in"
+              ]
+            }
+          },
+          "summary": {
+            "type": "RecentRecords",
+            "storage": {
+              "model": "Observation",
+              "find_existing": [
+                [
+                  "id IN %@",
+                  [
+                    "8f14f460-1622-11e8-98d0-529269fb1459",
+                    "3f35446c-1622-4405-838b-27187c8b55d3",
+                    "868b537e-1622-4182-872a-6f527a9d1f74",
+                    "376491b9-1622-43fd-9280-4452a0f9b315",
+                    "8q14f460-1622-11e8-98d0-529269fb1459"
+                  ]
+                ],
+                [
+                  "status!=%@",
+                  "entered-in-error"
+                ]
+              ]
+            },
+            "item_templates": [
+              {
+                "template": "{{obj|displayValue:\"code\"}}"
+              }
+            ]
+          }
+        },
+        {
+          "id": "card-multiselectnested-text-length-variations",
+          "title": "Multiselectnested text length variations",
+          "buttons": [
+            {
+              "title": "Test",
+              "on_select": [
+                {
+                  "event_data": "ShowMultiSelectNestedList",
+                  "event_name": "DisplayRightPanel"
+                }
+              ]
+            }
+          ],
+          "widgets": {
+            "ShowMultiSelectNestedList": {
+              "type": "MultiSelectNestedWidget",
+              "storage": {
+                "object": {
+                  "type": "Observation",
+                  "find_existing": [
+                    [
+                      "id IN %@",
+                      [
+                        "b9076d99-d535-4991-8d98-b51b2a340418",
+                        "33988133-a047-40bf-bf8a-10f809faceea",
+                        "dee26ef0-4de5-4645-8a6d-b730fedcdb0d"
+                      ]
+                    ],
+                    [
+                      "status <> %@",
+                      "entered-in-error"
+                    ]
+                  ]
+                }
+              },
+              "items": [
+                {
+                  "clear_button_title": "Clear",
+                  "mapped_to": "self",
+                  "on_select": {
+                    "event_name": "clear_values",
+                    "event_data": {}
+                  },
+                  "type": "HeaderCount",
+                  "bottom_padding": 20
+                },
+                {
+                  "title": "Text",
+                  "type": "MultiSelectNested",
+                  "value": {
+                    "type": "Observation",
+                    "id": "b9076d99-d535-4991-8d98-b51b2a340418",
+                    "status": "active"
+                  },
+                  "on_select": {
+                    "event_name": "navigate",
+                    "event_data": "ShowTextBoxWidget"
+                  },
+                  "mapped_to": "self",
+                  "display_expression": "{{obj.valueString}}"
+                },
+                {
+                  "title": "Very Very Very Very Large Text",
+                  "type": "MultiSelectNested",
+                  "value": {
+                    "type": "Observation",
+                    "id": "33988133-a047-40bf-bf8a-10f809faceea",
+                    "status": "active"
+                  },
+                  "on_select": {
+                    "event_name": "navigate",
+                    "event_data": "ShowTextBoxWidget"
+                  },
+                  "mapped_to": "self",
+                  "display_expression": "{{obj.valueString}}"
+                },
+                {
+                  "title": "Very Very Very Very Very Very Very Very Very Very Large Text",
+                  "type": "MultiSelectNested",
+                  "value": {
+                    "type": "Observation",
+                    "id": "dee26ef0-4de5-4645-8a6d-b730fedcdb0d",
+                    "status": "active"
+                  },
+                  "on_select": {
+                    "event_name": "navigate",
+                    "event_data": "ShowTextBoxWidget"
+                  },
+                  "mapped_to": "self",
+                  "display_expression": "{{obj.valueString}}"
+                }
+              ],
+              "title": "Test",
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "close",
+                    "save": "db"
+                  }
+                ]
+              }
+            },
+            "ShowTextBoxWidget": {
+              "type": "TextBoxWidget",
+              "title": "Title",
+              "prefix": "No. of Hours:",
+              "character_limit": 20,
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "pop",
+                    "save": "parent"
+                  }
+                ]
+              },
+              "storage": {
+                "keys": {
+                  "text": "valueString"
+                },
+                "object": {
+                  "type": "Observation",
+                  "additional_data": {
+                    "id": "TextBoxObservation"
+                  }
+                }
+              }
+            }
+          },
+          "summary": {
+            "type": "RecentRecords",
+            "storage": {
+              "model": "Observation",
+              "find_existing": [
+                [
+                  "code IN %@",
+                  [
+                    "Option 11",
+                    "Option 12",
+                    "Option 13",
+                    "Option 14"
+                  ]
+                ],
+                [
+                  "status!=%@",
+                  "entered-in-error"
+                ]
+              ]
+            },
+            "item_templates": [
+              {
+                "template": "{{obj.code}}"
+              }
+            ]
+          }
+        },
+        {
+          "id": "card-multiselectnested-either-or-with-navigation",
+          "title": "Test Multi Select Nested Either With Navigation",
+          "buttons": [
+            {
+              "title": "Add",
+              "on_select": [
+                {
+                  "event_data": "ShowMultiSelectNestedList",
+                  "event_name": "DisplayRightPanel"
+                }
+              ]
+            }
+          ],
+          "widgets": {
+            "ShowMultiSelectNestedList": {
+              "type": "MultiSelectNestedWidget",
+              "either_or_predicate": [
+                [
+                  "id = %@",
+                  "8q14m460-1623-11e8-98d0-529269fb1459"
+                ],
+                [
+                  "status=%@",
+                  "active"
+                ]
+              ],
+              "storage": {
+                "object": {
+                  "type": "Observation",
+                  "find_existing": [
+                    [
+                      "id IN %@",
+                      [
+                        "8q14m460-1623-11e8-98d0-529269fb1459",
+                        "8f14f460-1623-11e8-98d0-529269fb1459",
+                        "3f35446c-1623-4405-838b-27187c8b55d3",
+                        "868b537e-1623-4182-872a-6f527a9d1f74",
+                        "376491b9-1623-43fd-9280-4452a0f9b315"
+                      ]
+                    ],
+                    [
+                      "status <> %@",
+                      "entered-in-error"
+                    ]
+                  ]
+                }
+              },
+              "items": [
+                {
+                  "title": "No Option",
+                  "type": "SingleSelectNested",
+                  "value": {
+                    "type": "Observation",
+                    "id": "8q14m460-1623-11e8-98d0-529269fb1459",
+                    "code": "No Option",
+                    "status": "active"
+                  },
+                  "on_select": {
+                    "event_name": "navigate",
+                    "event_data": "ShowNumberInputWidget"
+                  },
+                  "mapped_to": "self",
+                  "display_keys": [
+                    "valueString",
+                    "components"
+                  ]
+                },
+                {
+                  "title": "No Option",
+                  "type": "Header"
+                },
+                {
+                  "clear_button_title": "Clear",
+                  "mapped_to": "self",
+                  "filter_predicate": [
+                    [
+                      "id = %@",
+                      "8q14m460-1623-11e8-98d0-529269fb1459"
+                    ],
+                    [
+                      "status=%@",
+                      "active"
+                    ]
+                  ],
+                  "on_select": {
+                    "event_name": "clear_values",
+                    "event_data": {}
+                  },
+                  "type": "HeaderCount",
+                  "bottom_padding": 20
+                },
+                {
+                  "title": "Option 1",
+                  "type": "MultiSelectNested",
+                  "value": {
+                    "type": "Observation",
+                    "id": "8f14f460-1623-11e8-98d0-529269fb1459",
+                    "code": "Option 1",
+                    "status": "active"
+                  },
+                  "on_select": {
+                    "event_name": "navigate",
+                    "event_data": "ShowNumberInputWidget"
+                  },
+                  "mapped_to": "self",
+                  "display_keys": [
+                    "valueString",
+                    "components"
+                  ]
+                },
+                {
+                  "title": "Option 2",
+                  "type": "MultiSelectNested",
+                  "value": {
+                    "type": "Observation",
+                    "id": "3f35446c-1623-4405-838b-27187c8b55d3",
+                    "code": "Option 2",
+                    "status": "active"
+                  },
+                  "on_select": {
+                    "event_name": "navigate",
+                    "event_data": "ShowNumberInputWidget"
+                  },
+                  "mapped_to": "self",
+                  "display_keys": [
+                    "valueString",
+                    "components"
+                  ]
+                },
+                {
+                  "title": "Option 3",
+                  "type": "MultiSelectNested",
+                  "value": {
+                    "type": "Observation",
+                    "id": "868b537e-1623-4182-872a-6f527a9d1f74",
+                    "code": "Option 3",
+                    "status": "active"
+                  },
+                  "on_select": {
+                    "event_name": "navigate",
+                    "event_data": "ShowNumberInputWidget"
+                  },
+                  "mapped_to": "self",
+                  "display_keys": [
+                    "valueString",
+                    "components"
+                  ]
+                },
+                {
+                  "title": "Option 4",
+                  "type": "MultiSelectNested",
+                  "value": {
+                    "type": "Observation",
+                    "id": "376491b9-1623-43fd-9280-4452a0f9b315",
+                    "code": "Option 4",
+                    "status": "active"
+                  },
+                  "on_select": {
+                    "event_name": "navigate",
+                    "event_data": "ShowNumberInputWidget"
+                  },
+                  "mapped_to": "self",
+                  "display_keys": [
+                    "valueString",
+                    "components"
+                  ]
+                }
+              ],
+              "title": "Test",
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "close",
+                    "save": "db"
+                  }
+                ]
+              }
+            },
+            "ShowNumberInputWidget": {
+              "title": "Title",
+              "type": "NumberInputWidget",
+              "prefix": "",
+              "maxIntegerPartDigitsCount": 2,
+              "maxFractionalPartDigitsCount": 3,
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "pop",
+                    "save": "parent"
+                  }
+                ]
+              },
+              "storage": {
+                "keys": {
+                  "number": "valueString",
+                  "unit": "valueUnit"
+                },
+                "object": {
+                  "type": "Observation",
+                  "additional_data": {
+                    "id": "476491b9-1622-43fd-9280-4452a0f9b315"
+                  }
+                }
+              },
+              "units": [
+                "cm",
+                "in"
+              ]
+            }
+          },
+          "summary": {
+            "type": "RecentRecords",
+            "storage": {
+              "model": "Observation",
+              "find_existing": [
+                [
+                  "id IN %@",
+                  [
+                    "8q14m460-1623-11e8-98d0-529269fb1459",
+                    "8f14f460-1623-11e8-98d0-529269fb1459",
+                    "3f35446c-1623-4405-838b-27187c8b55d3",
+                    "868b537e-1623-4182-872a-6f527a9d1f74",
+                    "376491b9-1623-43fd-9280-4452a0f9b315"
+                  ]
+                ],
+                [
+                  "status!=%@",
+                  "entered-in-error"
+                ]
+              ]
+            },
+            "item_templates": [
+              {
+                "template": "{{obj|displayValue:\"code\"}}"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "card-eventsovertime",
+      "acronym": "E/T",
+      "name": "Events Over Time",
+      "questions": [
+        {
+          "id": "weight-loss-over-time",
+          "title": "Test weight loss over time?",
+          "buttons": [
+            {
+              "title": "Add",
+              "on_select": [
+                {
+                  "event_data": "ShowWeightLossOverTime",
+                  "event_name": "DisplayRightPanel"
+                }
+              ]
+            }
+          ],
+          "events": {
+            "edit": {
+              "event_name": "DisplayRightPanel",
+              "event_data": "ShowWeightLossOverTime"
+            }
+          },
+          "widgets": {
+            "ShowWeightLossOverTime": {
+              "title": "Weight Loss Over Time Period",
+              "type": "EventsOverTimeWidget",
+              "event_input": {
+                "prefix": "Weight lost:",
+                "max_integerdigits_count": 2,
+                "max_fractionaldigits_count": 1,
+                "decimal_allowed": true,
+                "units": [
+                  "kg",
+                  "lb"
+                ]
+              },
+              "time_period_input": {
+                "prefix": "In:",
+                "max_integerdigits_count": 2,
+                "max_fractionaldigits_count": 0,
+                "decimal_allowed": false,
+                "units": [
+                  "Days",
+                  "Weeks",
+                  "Months",
+                  "Years"
+                ]
+              },
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "close",
+                    "save": "db"
+                  }
+                ]
+              },
+              "storage": {
+                "keys": {
+                  "eventValue": "valueString",
+                  "eventUnit": "valueUnit",
+                  "timePeriod": "valueOnset"
+                },
+                "object": {
+                  "type": "Observation",
+                  "additional_data": {
+                    "id": "weightLossOverTime"
+                  }
+                }
+              }
+            }
+          },
+          "summary": {
+            "type": "RecentRecords",
+            "storage": {
+              "model": "Observation",
+              "find_existing": [
+                [
+                  "id=%@",
+                  "weightLossOverTime"
+                ]
+              ]
+            },
+            "item_templates": [
+              {
+                "template": "{{obj|displayValue:\"valueString\"}} {{obj|displayValue:\"valueUnit\"}} {{obj|displayValue:\"valueOnset\"}}"
+              }
+            ]
+          }
+        },
+        {
+          "id": "events-over-time",
+          "title": "Test events over time?",
+          "buttons": [
+            {
+              "title": "Add",
+              "on_select": [
+                {
+                  "event_data": "ShowWeightLossOverTime",
+                  "event_name": "DisplayRightPanel"
+                }
+              ]
+            }
+          ],
+          "events": {
+            "edit": {
+              "event_name": "DisplayRightPanel",
+              "event_data": "ShowWeightLossOverTime"
+            }
+          },
+          "widgets": {
+            "ShowWeightLossOverTime": {
+              "title": "No. of Events Over Time Period",
+              "type": "EventsOverTimeWidget",
+              "event_input": {
+                "prefix": "No. of Events:",
+                "max_integerdigits_count": 2,
+                "max_fractionaldigits_count": 1,
+                "decimal_allowed": true,
+                "units": [
+                  "Times"
+                ]
+              },
+              "time_period_input": {
+                "prefix": "In:",
+                "max_integerdigits_count": 2,
+                "max_fractionaldigits_count": 0,
+                "decimal_allowed": false,
+                "units": [
+                  "Days",
+                  "Weeks",
+                  "Months",
+                  "Years"
+                ]
+              },
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "close",
+                    "save": "db"
+                  }
+                ]
+              },
+              "storage": {
+                "keys": {
+                  "eventValue": "valueString",
+                  "timePeriod": "valueOnset"
+                },
+                "object": {
+                  "type": "Observation",
+                  "additional_data": {
+                    "id": "EventOverTime"
+                  }
+                }
+              }
+            }
+          },
+          "summary": {
+            "type": "RecentRecords",
+            "storage": {
+              "model": "Observation",
+              "find_existing": [
+                [
+                  "id=%@",
+                  "EventOverTime"
+                ]
+              ]
+            },
+            "item_templates": [
+              {
+                "template": "{{obj|displayValue:\"valueString\"}} times {{obj|displayValue:\"valueOnset\"}}"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "card-customKVC",
+      "acronym": "CKVC",
+      "name": "Custom KVC",
+      "questions": [
+        {
+          "id": "card-customKVC",
+          "title": "Predicate in keypath example",
+          "buttons": [
+            {
+              "title": "Add",
+              "on_select": [
+                {
+                  "event_data": "AddObservation",
+                  "event_name": "DisplayRightPanel"
+                }
+              ]
+            }
+          ],
+          "summary": {
+            "type": "RecentRecords",
+            "storage": {
+              "model": "Observation",
+              "find_existing": [
+                [
+                  "code = %@",
+                  "blood_pressure"
+                ]
+              ]
+            },
+            "item_templates": [
+              {
+                "template": "Systolic: {{obj|displayValue:\"components{code='systolic_blood_pressure'}.valueString\"}} {{obj|displayValue:\"components{code='systolic_blood_pressure'}.valueUnit\"}} Diastolic: {{obj|displayValue:\"components{code='diastolic_blood_pressure'}.valueString\"}} {{obj|displayValue:\"components{code='diastolic_blood_pressure'}.valueUnit\"}}"
+              }
+            ]
+          },
+          "widgets": {
+            "AddObservation": {
+              "type": "NestedLabelWidget",
+              "items": [
+                {
+                  "type": "NestedLabel",
+                  "title": "Systolic",
+                  "mapped_to": "components{code='systolic_blood_pressure'}.valueString",
+                  "on_select": {
+                    "event_data": "ShowSystolicWidget",
+                    "event_name": "navigate"
+                  }
+                },
+                {
+                  "type": "NestedLabel",
+                  "title": "Diastolic",
+                  "mapped_to": "components{code='diastolic_blood_pressure'}.valueString",
+                  "on_select": {
+                    "event_data": "ShowDiastolicWidget",
+                    "event_name": "navigate"
+                  }
+                }
+              ],
+              "title": "Blood Pressure",
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "close",
+                    "save": "db"
+                  }
+                ]
+              },
+              "storage": {
+                "object": {
+                  "type": "Observation",
+                  "additional_data": {
+                    "status": "active",
+                    "code": "blood_pressure"
+                  }
+                }
+              }
+            },
+            "ShowSystolicWidget": {
+              "type": "NumberInputWidget",
+              "prefix": "No. of Hours:",
+              "max_integerdigits_count": 3,
+              "decimal_allowed": false,
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "pop",
+                    "save": "parent"
+                  }
+                ]
+              },
+              "storage": {
+                "keys": {
+                  "number": "components{code='systolic_blood_pressure'}.valueString",
+                  "unit": "components{code='systolic_blood_pressure'}.valueUnit"
+                }
+              },
+              "units": [
+                "mmHg"
+              ],
+              "hidden_fields": {
+                "components{code='systolic_blood_pressure'}.code": "systolic_blood_pressure",
+                "components{code='systolic_blood_pressure'}.status": "active"
+              }
+            },
+            "ShowDiastolicWidget": {
+              "type": "NumberInputWidget",
+              "prefix": "No. of Hours:",
+              "max_integerdigits_count": 3,
+              "decimal_allowed": false,
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "pop",
+                    "save": "parent"
+                  }
+                ]
+              },
+              "storage": {
+                "keys": {
+                  "number": "components{code='diastolic_blood_pressure'}.valueString",
+                  "unit": "components{code='diastolic_blood_pressure'}.valueUnit"
+                }
+              },
+              "units": [
+                "mmHg"
+              ],
+              "hidden_fields": {
+                "components{code='diastolic_blood_pressure'}.code": "diastolic_blood_pressure",
+                "components{code='diastolic_blood_pressure'}.status": "active"
+              }
+            }
+          }
+        },
+        {
+          "id": "placeholder",
+          "title": "Placeholder Question"
+        }
+      ]
+    },
+    {
+      "id": "card-nestedlabel",
+      "name": "Nested Label",
+      "acronym": "NL",
+      "questions": [
+        {
+          "id": "card-nestedlabel",
+          "title": "Add Investigation",
+          "buttons": [
+            {
+              "title": "Add",
+              "on_select": [
+                {
+                  "event_data": "AddInvestigation",
+                  "event_name": "DisplayRightPanel"
+                }
+              ]
+            },
+            {
+              "id": "No-Investigation",
+              "states": {
+                "selected": {
+                  "title": "No Investigation",
+                  "active": true
+                },
+                "unselected": {
+                  "title": "No Investigation",
+                  "active": false
+                }
+              },
+              "on_select": [
+                {
+                  "event_condition": "isActive=false",
+                  "event_name": "Custom",
+                  "event_data": "SelectOption1"
+                },
+                {
+                  "event_condition": "isActive=true",
+                  "event_name": "Custom",
+                  "event_data": "UnSelectOption1"
+                }
+              ],
+              "state_conditions": [
+                {
+                  "type": "Observation",
+                  "state_results": [
+                    {
+                      "state": "unselected",
+                      "results_predicate": [
+                        [
+                          "SELF[SIZE] == %@",
+                          0
+                        ]
+                      ]
+                    },
+                    {
+                      "state": "selected",
+                      "results_predicate": [
+                        [
+                          "SELF[SIZE] > %@",
+                          0
+                        ]
+                      ]
+                    }
+                  ],
+                  "query_predicate": [
+                    [
+                      "code = %@",
+                      "observation10"
+                    ],
+                    [
+                      "status=%@",
+                      "active"
+                    ]
+                  ]
+                }
+              ]
+            }
+          ],
+          "custom_actions": {
+            "SelectOption1": [
+              {
+                "type": "Observation",
+                "find_existing": [
+                  [
+                    "code = %@",
+                    "observation10"
+                  ],
+                  [
+                    "status=%@",
+                    "entered-in-error"
+                  ]
+                ],
+                "additional_data": {
+                  "status": "active",
+                  "code": "observation10"
+                }
+              }
+            ],
+            "UnSelectOption1": [
+              {
+                "type": "Observation",
+                "find_existing": [
+                  [
+                    "code = %@",
+                    "observation10"
+                  ],
+                  [
+                    "status=%@",
+                    "active"
+                  ]
+                ],
+                "additional_data": {
+                  "status": "entered-in-error",
+                  "code": "observation10"
+                }
+              }
+            ]
+          },
+          "widgets": {
+            "AddInvestigation": {
+              "type": "NestedLabelWidget",
+              "items": [
+                {
+                  "type": "NestedLabel",
+                  "title": "CONCLUSION",
+                  "mapped_to": null,
+                  "on_select": {
+                    "event_data": "SetConclusion",
+                    "event_name": "navigate"
+                  }
+                },
+                {
+                  "type": "NestedLabel",
+                  "title": "OUTCOME",
+                  "mapped_to": null,
+                  "on_select": {
+                    "event_data": "SetOutcome",
+                    "event_name": "navigate"
+                  }
+                },
+                {
+                  "type": "AddFile",
+                  "title": "+ ADD PHOTO(S)",
+                  "observe_keys": [
+                    "files"
+                  ],
+                  "on_click": [
+                    {
+                      "event_condition": "tag == 2",
+                      "event_name": "present",
+                      "event_data": "ShowImagePicker"
+                    },
+                    {
+                      "event_condition": "tag == 4",
+                      "event_name": "present",
+                      "event_data": "ShowGallery"
+                    }
+                  ],
+                  "display_expression": "{% if obj|displayValue:\"activeFilesCount\" != \"0\" %}{{obj|displayValue:\"activeFilesCount\"}} photo(s){% endif %}",
+                  "mapped_to": "activeFilesCount"
+                }
+              ],
+              "title": "Provider Contact",
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "close",
+                    "save": "db"
+                  },
+                  {
+                    "event_name": "custom",
+                    "event_data": "UnSelectOption1"
+                  }
+                ]
+              },
+              "custom_actions": {
+                "UnSelectOption1": [
+                  {
+                    "type": "Observation",
+                    "find_existing": [
+                      [
+                        "code = %@",
+                        "observation10"
+                      ],
+                      [
+                        "status=%@",
+                        "active"
+                      ]
+                    ],
+                    "additional_data": {
+                      "status": "entered-in-error",
+                      "code": "observation10"
+                    }
+                  }
+                ]
+              },
+              "storage": {
+                "object": {
+                  "type": "Observation",
+                  "additional_data": {
+                    "id": "55d2b310-7e9c-11e8-adc0-fa7ae01bbebc",
+                    "status": "active",
+                    "code": "test_code"
+                  }
+                }
+              }
+            },
+            "ShowGallery": {
+              "type": "GalleryWidget",
+              "storage": {
+                "keys": {
+                  "files": "files"
+                }
+              },
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "dismiss",
+                    "save": "parent"
+                  }
+                ]
+              }
+            },
+            "ShowImagePicker": {
+              "type": "ImagePickerWidget",
+              "panel_name": "Investigation",
+              "storage": {
+                "keys": {
+                  "files": "files"
+                }
+              },
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "dismiss",
+                    "save": "parent"
+                  }
+                ]
+              }
+            }
+          },
+          "events": {
+            "edit": {
+              "event_name": "DisplayRightPanel",
+              "event_data": "AddInvestigation"
+            }
+          },
+          "summary": {
+            "type": "RecentRecords",
+            "storage": {
+              "model": "Observation",
+              "find_existing": [
+                [
+                  "id=%@",
+                  "55d2b310-7e9c-11e8-adc0-fa7ae01bbebc"
+                ],
+                [
+                  "status=%@",
+                  "active"
+                ]
+              ]
+            },
+            "item_templates": [
+              {
+                "template": "{{obj|displayValue:\"id\"}}"
+              }
+            ]
+          },
+          "on_change_listener": [
+            {
+              "type": "Observation",
+              "query_predicate": [
+                [
+                  "code = %@",
+                  "observation10"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "card-nestedlabel-variations",
+          "title": "To test nested label states for different attribute and value lengths",
+          "buttons": [
+            {
+              "title": "Yes",
+              "on_select": [
+                {
+                  "event_data": "AddDiagnosis",
+                  "event_name": "DisplayRightPanel"
+                }
+              ]
+            }
+          ],
+          "widgets": {
+            "AddDiagnosis": {
+              "type": "NestedLabelWidget",
+              "items": [
+                {
+                  "mapped_to": "condition.name",
+                  "title": "TYPE",
+                  "type": "NestedLabel"
+                },
+                {
+                  "mapped_to": "evidences{code='lada_etiology'}.valueString",
+                  "title": "ETIOLOGY",
+                  "on_select": {
+                    "event_name": "navigate",
+                    "event_data": "SetOnset"
+                  },
+                  "type": "NestedLabel"
+                },
+                {
+                  "mapped_to": "onset",
+                  "title": "ONSET",
+                  "on_select": {
+                    "event_name": "navigate",
+                    "event_data": "SetOnset"
+                  },
+                  "type": "NestedLabel"
+                },
+                {
+                  "mapped_to": "duration",
+                  "title": "DURATION",
+                  "on_select": {
+                    "event_name": "navigate",
+                    "event_data": "SetDuration"
+                  },
+                  "type": "NestedLabel"
+                },
+                {
+                  "mapped_to": "clinicalStatus",
+                  "title": "CLINICAL STATUS",
+                  "on_select": {
+                    "event_name": "navigate",
+                    "event_data": "SetClinicalStatus"
+                  },
+                  "type": "NestedLabel"
+                },
+                {
+                  "mapped_to": "verificationStatus",
+                  "title": "VERIFICATION STATUS",
+                  "on_select": {
+                    "event_name": "navigate",
+                    "event_data": "SetVerificationStatus"
+                  },
+                  "type": "NestedLabel"
+                },
+                {
+                  "mapped_to": "onset",
+                  "title": "REALLY LOOOOOONG LABEL IT SPANS ACROSS MULTIPLE LINES",
+                  "on_select": {
+                    "event_name": "navigate",
+                    "event_data": "SetOnset"
+                  },
+                  "type": "NestedLabel"
+                }
+              ],
+              "title": "Diagnosis Details",
+              "actions": {
+                "on_done": [
+                  {
+                    "event_name": "close",
+                    "save": "db"
+                  }
+                ]
+              },
+              "storage": {
+                "object": {
+                  "type": "PatientCondition",
+                  "additional_data": {
+                  },
+                  "find_existing" : [
+                    [
+                      "condition.id IN %@",
+                      [
+                        "f21fdc38-990a-458d-bc69-354923751a6d"
+                      ]
+                    ]
+                  ]
+                }
+              }
+            }
+          }
+        },
+        {
+          "id": "placeholder",
+          "title": "Placeholder Question"
+        }
+      ]
+    }
+  ]
+}
