@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { SHOW_RIGHT_PANEL } from 'store/actions/PanelActions'
+import { SHOW_RIGHT_PANEL, SET_CURRENT_WIDGET } from 'store/actions/PanelActions'
 import QuestionButton from 'components/common/QuestionButton';
 
 class QuestionCell extends Component {
@@ -8,9 +8,11 @@ class QuestionCell extends Component {
     super(props);
   }
 
-  handleClick() {
-    console.log(this.props);
+  handleClick({event_name, event_data}) {
     this.props.toggleLeftPanel();
+    if(this.props.question.widgets[event_data]){
+      this.props.setCurrentWidget(this.props.question.widgets[event_data].type, this.props.question.widgets[event_data]);
+    }
   }
   
   render(){
@@ -31,12 +33,14 @@ class QuestionCell extends Component {
 
 const mapStateToProps = state => {
   return {
-    leftpanel: state.PanelReducer.leftPanel
+    leftpanel: state.PanelReducer.leftPanel,
+    currentWidget: state.RightSidePanelReducer.currentWidget
   }
 }
 const mapDispatchToProps = dispatch => {
   return {
-    toggleLeftPanel: () => dispatch({type: SHOW_RIGHT_PANEL})
+    toggleLeftPanel: () => dispatch({type: SHOW_RIGHT_PANEL}),
+    setCurrentWidget: (currentWidget, widegtData) => dispatch({type: SET_CURRENT_WIDGET, payload:{widget: currentWidget, rightPanelData: widegtData}})
   }
 }
 

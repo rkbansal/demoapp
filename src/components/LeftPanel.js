@@ -12,12 +12,12 @@ class LeftPanel extends Component {
   }
 
   render() {
-    const {toggleLeftPanel, leftpanel} = this.props;
+    const {toggleLeftPanel, leftpanel, path} = this.props;
     return(
     <div className={`leftPanel ${leftpanel? "leftpanel-expand":"leftpanel-collapse" }`}>
       <div className="leftpanel-heading"><span className={`leftpanel-heading-title ${leftpanel?"":"disabled"}`}>QUESTIONNAIRE STEPS</span><span onClick={toggleLeftPanel}><FontAwesomeIcon icon={faChevronLeft} size="lg" rotation={leftpanel?null:180} color="#70a1ba"/></span></div>
       {this.props.cards.map((card, i)=>{
-        return <Link to={`/${card.acronym}`} key={i}><QuestionnaireCell data={card} /></Link>
+        return <Link to={`${path}/${card.acronym.replace(/\//g,'_')}`} key={i}><QuestionnaireCell data={card} /></Link>
       })}
     </div>
     )

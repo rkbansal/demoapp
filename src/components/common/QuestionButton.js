@@ -25,7 +25,8 @@ class QuestionButton extends Component {
   }
 
   handleClick(){
-    this.props.handleClick();
+    console.log(this.props);
+    this.props.handleClick(this.props.button.on_select[0]);
   }
   
   render(){

@@ -48,13 +48,14 @@ export function MiddleReducer(state = initialMiddleState, action){
 }
 
 const initialRightSidePanel = {
-  currentWidget: null
+  currentWidget: null,
+  rightPanelData: null
 }
 
 export function RightSidePanelReducer(state = initialRightSidePanel, action){
   switch(action.type){
     case SET_CURRENT_WIDGET:
-      return {...state, currentWidget: action.payload.widget};
+      return {...state, currentWidget: action.payload.widget, rightPanelData: action.payload.rightPanelData};
     default:
       return state;
   }

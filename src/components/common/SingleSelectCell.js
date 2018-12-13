@@ -14,11 +14,11 @@ class SingleSelectCell extends Component {
 
   render(){
     return(
-    <div className="single-select-cell">
+    <div className="single-select-cell" onClick={this.toggleRadioButton}>
       <div className="single-select-left">
-        Eating Inconsistenly
+        {this.props.title?this.props.title:"Eating Inconsistenly"}
       </div>
-      <div className="single-select-right" onClick={this.toggleRadioButton}>
+      <div className="single-select-right">
         <img className="single-select-radio-icon" src={this.props.selected?selectedRadioButton:notSelectedRadioButton}/>
       </div>
     </div>);

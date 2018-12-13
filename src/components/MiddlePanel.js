@@ -14,8 +14,10 @@ class MiddlePanel extends Component {
     let questions = [];
     let name = ""
     let cardNumber = 0;
+    const pathName = this.props.location.pathname.split('/');
+    const path = pathName[pathName.length-1];
     for(let i=0, len=cards.length; i<len; i++){
-      if(this.props.location.pathname.substr(1) == cards[i].acronym){
+      if(path == cards[i].acronym.replace(/\//g,'_')){
         questions = cards[i].questions;
         name = cards[i].name
         cardNumber = i+1;
